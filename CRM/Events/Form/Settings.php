@@ -32,6 +32,8 @@ class CRM_Events_Form_Settings extends CRM_Core_Form
 
     public function buildQuickForm()
     {
+        $this->setTitle(E::ts("BUND Event Configuration"));
+
         $this->add(
             'select',
             'bund_event_types',
@@ -130,7 +132,7 @@ class CRM_Events_Form_Settings extends CRM_Core_Form
      */
     protected function getEventRelationshipTypes()
     {
-        $relationship_types = ['' => E::ts("all")];
+        $relationship_types = [];
         $query = civicrm_api3(
             'RelationshipType',
             'get',

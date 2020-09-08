@@ -155,6 +155,28 @@ function events_civicrm_themes(&$themes) {
   _events_civix_civicrm_themes($themes);
 }
 
+/**
+ * Implements hook_civicrm_navigationMenu().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu
+ */
+function events_civicrm_navigationMenu(&$menu)
+{
+    _events_civix_insert_navigation_menu(
+        $menu,
+        'Administer/CiviEvent',
+        [
+            'label' => E::ts('BUND Event Configuration'),
+            'name' => 'bund_event_configuration',
+            'url' => 'civicrm/event/bund/settings',
+            'permission' => 'administer CiviCRM',
+            'operator' => 'OR',
+            'separator' => 0,
+        ]
+    );
+    _events_civix_navigationMenu($menu);
+}
+
 // --- Functions below this ship commented out. Uncomment as required. ---
 
 /**
@@ -164,21 +186,4 @@ function events_civicrm_themes(&$themes) {
  *
 function events_civicrm_preProcess($formName, &$form) {
 
-} // */
-
-/**
- * Implements hook_civicrm_navigationMenu().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu
- *
-function events_civicrm_navigationMenu(&$menu) {
-  _events_civix_insert_navigation_menu($menu, 'Mailings', array(
-    'label' => E::ts('New subliminal message'),
-    'name' => 'mailing_subliminal_message',
-    'url' => 'civicrm/mailing/subliminal',
-    'permission' => 'access CiviMail',
-    'operator' => 'OR',
-    'separator' => 0,
-  ));
-  _events_civix_navigationMenu($menu);
 } // */

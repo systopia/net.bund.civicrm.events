@@ -3,7 +3,10 @@
   <item>
     <path>civicrm/event/bund/settings</path>
     <page_callback>CRM_Events_Form_Settings</page_callback>
-    <title>Settings</title>
-    <access_arguments>access CiviCRM</access_arguments>
+    <title>BUND Event Configuration</title>
+    <desc>Customisation for BUND events</desc>
+    <access_arguments>administer CiviCRM</access_arguments>
+    <adminGroup>CiviEvent</adminGroup>
+    <icon>admin/duplicate_matching.png</icon>
   </item>
 </menu>
