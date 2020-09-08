@@ -20,10 +20,22 @@ use CRM_Events_ExtensionUtil as E;
 /**
  * Implements hook_civicrm_config().
  *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_config/ 
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_config/
  */
-function events_civicrm_config(&$config) {
-  _events_civix_civicrm_config($config);
+function events_civicrm_config(&$config)
+{
+    _events_civix_civicrm_config($config);
+
+    Civi::dispatcher()->addListener(
+        'civi.remoteevent.get.result',
+        ['CRM_Events_RemoteEventModifications', 'overrideRegistrationRestrictions']
+    );
+
+    Civi::dispatcher()->addListener(
+        'civi.remoteevent.registration.validate',
+        ['CRM_Events_RemoteEventModifications', 'validateRegistrationRestrictions'],
+        -500 // run late
+    );
 }
 
 /**
@@ -31,8 +43,9 @@ function events_civicrm_config(&$config) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_xmlMenu
  */
-function events_civicrm_xmlMenu(&$files) {
-  _events_civix_civicrm_xmlMenu($files);
+function events_civicrm_xmlMenu(&$files)
+{
+    _events_civix_civicrm_xmlMenu($files);
 }
 
 /**
@@ -40,8 +53,9 @@ function events_civicrm_xmlMenu(&$files) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_install
  */
-function events_civicrm_install() {
-  _events_civix_civicrm_install();
+function events_civicrm_install()
+{
+    _events_civix_civicrm_install();
 }
 
 /**
@@ -49,8 +63,9 @@ function events_civicrm_install() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postInstall
  */
-function events_civicrm_postInstall() {
-  _events_civix_civicrm_postInstall();
+function events_civicrm_postInstall()
+{
+    _events_civix_civicrm_postInstall();
 }
 
 /**
@@ -58,8 +73,9 @@ function events_civicrm_postInstall() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_uninstall
  */
-function events_civicrm_uninstall() {
-  _events_civix_civicrm_uninstall();
+function events_civicrm_uninstall()
+{
+    _events_civix_civicrm_uninstall();
 }
 
 /**
@@ -67,8 +83,9 @@ function events_civicrm_uninstall() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_enable
  */
-function events_civicrm_enable() {
-  _events_civix_civicrm_enable();
+function events_civicrm_enable()
+{
+    _events_civix_civicrm_enable();
 }
 
 /**
@@ -76,8 +93,9 @@ function events_civicrm_enable() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_disable
  */
-function events_civicrm_disable() {
-  _events_civix_civicrm_disable();
+function events_civicrm_disable()
+{
+    _events_civix_civicrm_disable();
 }
 
 /**
@@ -85,8 +103,9 @@ function events_civicrm_disable() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_upgrade
  */
-function events_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return _events_civix_civicrm_upgrade($op, $queue);
+function events_civicrm_upgrade($op, CRM_Queue_Queue $queue = null)
+{
+    return _events_civix_civicrm_upgrade($op, $queue);
 }
 
 /**
@@ -97,8 +116,9 @@ function events_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_managed
  */
-function events_civicrm_managed(&$entities) {
-  _events_civix_civicrm_managed($entities);
+function events_civicrm_managed(&$entities)
+{
+    _events_civix_civicrm_managed($entities);
 }
 
 /**
@@ -110,8 +130,9 @@ function events_civicrm_managed(&$entities) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_caseTypes
  */
-function events_civicrm_caseTypes(&$caseTypes) {
-  _events_civix_civicrm_caseTypes($caseTypes);
+function events_civicrm_caseTypes(&$caseTypes)
+{
+    _events_civix_civicrm_caseTypes($caseTypes);
 }
 
 /**
@@ -124,8 +145,9 @@ function events_civicrm_caseTypes(&$caseTypes) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_angularModules
  */
-function events_civicrm_angularModules(&$angularModules) {
-  _events_civix_civicrm_angularModules($angularModules);
+function events_civicrm_angularModules(&$angularModules)
+{
+    _events_civix_civicrm_angularModules($angularModules);
 }
 
 /**
@@ -133,8 +155,9 @@ function events_civicrm_angularModules(&$angularModules) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterSettingsFolders
  */
-function events_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-  _events_civix_civicrm_alterSettingsFolders($metaDataFolders);
+function events_civicrm_alterSettingsFolders(&$metaDataFolders = null)
+{
+    _events_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
 /**
@@ -144,15 +167,17 @@ function events_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
  */
-function events_civicrm_entityTypes(&$entityTypes) {
-  _events_civix_civicrm_entityTypes($entityTypes);
+function events_civicrm_entityTypes(&$entityTypes)
+{
+    _events_civix_civicrm_entityTypes($entityTypes);
 }
 
 /**
  * Implements hook_civicrm_thems().
  */
-function events_civicrm_themes(&$themes) {
-  _events_civix_civicrm_themes($themes);
+function events_civicrm_themes(&$themes)
+{
+    _events_civix_civicrm_themes($themes);
 }
 
 /**
@@ -184,6 +209,6 @@ function events_civicrm_navigationMenu(&$menu)
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_preProcess
  *
-function events_civicrm_preProcess($formName, &$form) {
-
-} // */
+ * function events_civicrm_preProcess($formName, &$form) {
+ *
+ * } // */
