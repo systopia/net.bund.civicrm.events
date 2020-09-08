@@ -36,19 +36,19 @@ class CRM_Events_RemoteEventModifications
         if ($contact_id) {
             $event_list = $result->getEventData();
             foreach ($event_list as &$event) {
-                if (self::applyRegistrationRestrictions($event)) {
+                if (CRM_Events_Logic::shouldApplyRegistrationRestrictions($event)) {
                     // our restrictions apply here:
                     if (!empty($event['can_register'])) {
                         // registration for this contact is currently allowed,
                         //  let's see if we need to interfere
 
-                        $contact_has_contingent = self::contactStillHasContingent($contact_id);
+                        $contact_has_contingent = CRM_Events_Logic::contactStillHasContingent($contact_id);
                         if (!$contact_has_contingent) {
                             $result->logMessage("BUNDEvent: contact [{$contact_id}] does not have an event contingent any more");
                             $event['can_register'] = 0;
                         }
 
-                        $contact_has_relationship = self::contactHasRelationship($contact_id);
+                        $contact_has_relationship = CRM_Events_Logic::contactHasRelationship($contact_id);
                         if (!$contact_has_relationship) {
                             $result->logMessage("BUNDEvent: contact [{$contact_id}] does not have the required relationship");
                             $event['can_register'] = 0;
@@ -68,10 +68,10 @@ class CRM_Events_RemoteEventModifications
     public static function validateRegistrationRestrictions($validation)
     {
         $contact_id = $validation->getRemoteContactID();
-        if (!self::contactStillHasContingent($contact_id)) {
+        if (!CRM_Events_Logic::contactStillHasContingent($contact_id)) {
             $validation->addError('remote_contact_id', E::ts("Contact has no more contingent to register to this event."));
         }
-        if (!self::contactHasRelationship($contact_id)) {
+        if (!CRM_Events_Logic::contactHasRelationship($contact_id)) {
             $validation->addError('remote_contact_id', E::ts("Contact doesn't have the required relationships to register to this event."));
         }
     }
