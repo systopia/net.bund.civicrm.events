@@ -75,13 +75,56 @@ class CRM_Events_Logic
      * @param integer $contact_id
      *   contact ID
      *
+     * @param integer $event_id
+     *   event ID
+     *
      * @return integer
      *   number of days granted to the contact
      */
-    public static function contactHasRelationship($contact_id)
+    public static function contactHasRelationship($contact_id, $event_id)
     {
-        // todo: implement
-        return true;
+        $contact_id = (int) $contact_id;
+        $event_id = (int) $event_id;
+        $required_relationships = Civi::settings()->get('bund_event_relationship_types');
+        if (empty($required_relationships) || !is_array($required_relationships)) {
+            // no relationship set -> great!
+            return true;
+        }
+
+        // build SQL query
+        $relationships = $relationship_joins = [];
+        foreach ($required_relationships as $relationship_spec) {
+            if (preg_match('/^([0-9]+)([ab])$/', $relationship_spec, $matches)) {
+                $relationship_type_id = (int) $matches[1];
+                $relationship_direction = $matches[2];
+                $relationship_joins[] = "
+                    LEFT JOIN civicrm_relationship rel{$relationship_spec} 
+                       ON contact.id = rel{$relationship_spec}.contact_id_{$relationship_direction} 
+                      AND rel{$relationship_spec}.relationship_type_id = {$relationship_type_id}
+                      AND rel{$relationship_spec}.is_active = 1
+                      AND (  (rel{$relationship_spec}.start_date IS NULL)
+                          OR (rel{$relationship_spec}.start_date < event.start_date)
+                          )
+                      AND (  (rel{$relationship_spec}.end_date IS NULL)
+                          OR (rel{$relationship_spec}.end_date > event.start_date)
+                          ) ";
+                $relationships[] = "rel{$relationship_spec}.id";
+            } else {
+                 throw new Exception("Invalid relationship spec in 'bund_event_contingent_field': " . $relationship_spec);
+            }
+        }
+        $JOIN_RELATIONSHIPS = implode("\n ", $relationship_joins);
+        $VALID_RELATIONSHIPS = implode(',', $relationships);
+
+        // final query: find (coalesce) all relationships
+        $valid_relationship_query = "
+            SELECT SUM(COALESCE({$VALID_RELATIONSHIPS})) AS valid_relationship
+            FROM civicrm_contact contact
+            LEFT JOIN civicrm_event event ON event.id = {$event_id}
+            {$JOIN_RELATIONSHIPS}
+            WHERE contact.id = {$contact_id}";
+        $valid_relationship_count = CRM_Core_DAO::singleValueQuery($valid_relationship_query);
+        return $valid_relationship_count > 0;
     }
 
     /**

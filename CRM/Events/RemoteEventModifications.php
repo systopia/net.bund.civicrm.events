@@ -48,7 +48,7 @@ class CRM_Events_RemoteEventModifications
                             $event['can_register'] = 0;
                         }
 
-                        $contact_has_relationship = CRM_Events_Logic::contactHasRelationship($contact_id);
+                        $contact_has_relationship = CRM_Events_Logic::contactHasRelationship($contact_id, $event['id']);
                         if (!$contact_has_relationship) {
                             $result->logMessage("BUNDEvent: contact [{$contact_id}] does not have the required relationship");
                             $event['can_register'] = 0;
@@ -71,7 +71,7 @@ class CRM_Events_RemoteEventModifications
         if (!CRM_Events_Logic::contactStillHasContingent($contact_id)) {
             $validation->addError('remote_contact_id', E::ts("Contact has no more contingent to register to this event."));
         }
-        if (!CRM_Events_Logic::contactHasRelationship($contact_id)) {
+        if (!CRM_Events_Logic::contactHasRelationship($contact_id, $validation->getEventID())) {
             $validation->addError('remote_contact_id', E::ts("Contact doesn't have the required relationships to register to this event."));
         }
     }

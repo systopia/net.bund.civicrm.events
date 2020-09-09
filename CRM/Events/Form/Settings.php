@@ -145,8 +145,8 @@ class CRM_Events_Form_Settings extends CRM_Core_Form
             ]
         );
         foreach ($query['values'] as $type) {
-            $relationship_types["{$type['id']}ab"] = $type['name_a_b'];
-            $relationship_types["{$type['id']}ba"] = $type['name_b_a'];
+            $relationship_types["{$type['id']}a"] = $type['name_a_b'];
+            $relationship_types["{$type['id']}b"] = $type['name_b_a'];
         }
 
         return $relationship_types;
