@@ -32,8 +32,8 @@ class CRM_Events_RemoteEventModifications
      */
     public static function overrideRegistrationRestrictions(GetResultEvent $result)
     {
-        $contact_id = $result->getRemoteContactID();
         $event_list = &$result->getEventData();
+        $contact_id = $result->getRemoteContactID();
         if ($contact_id) {
             foreach ($event_list as &$event) {
                 if (CRM_Events_Logic::shouldApplyRegistrationRestrictions($event)) {
@@ -58,9 +58,14 @@ class CRM_Events_RemoteEventModifications
 
         } else {
             // todo: contact not known => really disable registration for all events?
-            $result->logMessage("BUNDEvent: contact [{$contact_id}] does not have the required relationship");
+            $result->logMessage("BUNDEvent: contact has not been identified, so no register/edit/cancel permissions given");
             foreach ($event_list as &$event) {
-                $event['can_register'] = 0;
+                if (CRM_Events_Logic::shouldApplyRegistrationRestrictions($event)) {
+                    // disallow, since we couldn't identify the contact
+                    $event['can_register'] = 0;
+                    $event['can_cancel_registration'] = 0;
+                    $event['can_edit_registration'] = 0;
+                }
             }
         }
     }

@@ -105,8 +105,6 @@ class CRM_Events_Logic
      *
      * @return integer
      *   number of days granted to the contact
-     *
-     * @deprecated
      */
     public static function contactHasRelationship($contact_id, $event_id)
     {
