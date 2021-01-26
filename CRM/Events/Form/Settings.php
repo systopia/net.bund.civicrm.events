@@ -26,7 +26,6 @@ class CRM_Events_Form_Settings extends CRM_Core_Form
     const SETTINGS = [
         'bund_event_types',
         'bund_event_relationship_types',
-        'bund_event_relationship_offset',
     ];
 
     public function buildQuickForm()
@@ -48,12 +47,6 @@ class CRM_Events_Form_Settings extends CRM_Core_Form
             $this->getEventRelationshipTypes(),
             false,
             ['class' => 'crm-select2', 'multiple' => 'multiple', 'placeholder' => E::ts("disabled")]
-        );
-        $this->add(
-            'text',
-            'bund_event_relationship_offset',
-            E::ts("Start Date Offset"),
-            false
         );
 
         $this->addButtons(

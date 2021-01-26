@@ -29,6 +29,13 @@ class CRM_Events_Logic
     const EVENT_DAYS_MISSED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_entschuldigt';
     const EVENT_DAYS_FAILED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_unentschuldigt';
 
+    // currently not used, relationship(s) defined via settings, using is_active flag at relationship
+    //    const RELATIONSHIP_NAME         = 'ist Freiwillige* bei';
+    //    const RELATIONSHIP_GROUP_NAME   = 'einsatz_zusatzinfos';
+    //    const RELATIONSHIP_STATUS_FIELD = 'einsatz_status';
+    //    const RELATIONSHIP_STATUS_OK    = [1,2];
+
+
     /**
      * Check if the event registration restrictions should be
      *   applied to the given event
@@ -98,6 +105,8 @@ class CRM_Events_Logic
      *
      * @return integer
      *   number of days granted to the contact
+     *
+     * @deprecated
      */
     public static function contactHasRelationship($contact_id, $event_id)
     {

@@ -24,16 +24,16 @@
     <div class="content">{$form.bund_event_relationship_types.html}</div>
     <div class="clear"></div>
   </div>
-  <div class="crm-section">
-    <div class="label">{$form.bund_event_relationship_offset.label}</div>
-    <div class="content">{$form.bund_event_relationship_offset.html}</div>
-    <div class="clear"></div>
-  </div>
-  <div class="crm-section">
-    <div class="label">{$form.bund_event_contingent_field.label}</div>
-    <div class="content">{$form.bund_event_contingent_field.html}</div>
-    <div class="clear"></div>
-  </div>
+{*  <div class="crm-section">*}
+{*    <div class="label">{$form.bund_event_relationship_offset.label}</div>*}
+{*    <div class="content">{$form.bund_event_relationship_offset.html}</div>*}
+{*    <div class="clear"></div>*}
+{*  </div>*}
+{*  <div class="crm-section">*}
+{*    <div class="label">{$form.bund_event_contingent_field.label}</div>*}
+{*    <div class="content">{$form.bund_event_contingent_field.html}</div>*}
+{*    <div class="clear"></div>*}
+{*  </div>*}
 </div>
 
 <div class="crm-submit-buttons">
