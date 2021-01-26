@@ -124,19 +124,37 @@ class CRM_Events_Form_Settings extends CRM_Core_Form
     protected function getEventRelationshipTypes()
     {
         $relationship_types = [];
+
+        // get one direction
+        $type_ids_listed = [0];
         $query = civicrm_api3(
             'RelationshipType',
             'get',
             [
                 'option.limit'    => 0,
                 'contact_type_a'  => 'Individual',
-                'contact_type_b'  => 'Individual',
                 'is_active'       => 1,
                 'return'          => 'id,name_a_b,name_b_a',
             ]
         );
         foreach ($query['values'] as $type) {
+            $type_ids_listed[] = $type['id'];
             $relationship_types["{$type['id']}a"] = $type['name_a_b'];
+        }
+
+        // get one direction
+        $query = civicrm_api3(
+            'RelationshipType',
+            'get',
+            [
+                'option.limit'    => 0,
+                'contact_type_b'  => 'Individual',
+                'id'              => ['NOT IN' => $type_ids_listed],
+                'is_active'       => 1,
+                'return'          => 'id,name_a_b,name_b_a',
+            ]
+        );
+        foreach ($query['values'] as $type) {
             $relationship_types["{$type['id']}b"] = $type['name_b_a'];
         }
 

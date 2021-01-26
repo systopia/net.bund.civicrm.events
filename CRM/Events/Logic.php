@@ -26,7 +26,8 @@ class CRM_Events_Logic
     const EVENT_DAYS_BOOKED  = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht';
     const EVENT_DAYS_USED    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet';
     const EVENT_DAYS_LEFT    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_offen';
-
+    const EVENT_DAYS_MISSED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_entschuldigt';
+    const EVENT_DAYS_FAILED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_unentschuldigt';
 
     /**
      * Check if the event registration restrictions should be
@@ -140,7 +141,7 @@ class CRM_Events_Logic
             LEFT JOIN civicrm_event event ON event.id = {$event_id}
             {$JOIN_RELATIONSHIPS}
             WHERE contact.id = {$contact_id}";
-        $valid_relationship_count = CRM_Core_DAO::singleValueQuery($valid_relationship_query);
+        $valid_relationship_count = (int) CRM_Core_DAO::singleValueQuery($valid_relationship_query);
         return $valid_relationship_count > 0;
     }
 
@@ -155,11 +156,12 @@ class CRM_Events_Logic
      */
     public static function getContactEventContingentLeft($contact_id)
     {
-        // todo: do live lookup of booked and granted?
         $contingent_data = CRM_Events_Logic::getContactEventContingentData($contact_id);
-        return $contingent_data[self::EVENT_DAYS_GRANTED]
-            - $contingent_data[self::EVENT_DAYS_BOOKED]
-            - $contingent_data[self::EVENT_DAYS_USED];
+        // don't do this: $contingent_used = $contingent_data[self::EVENT_DAYS_BOOKED] + $contingent_data[self::EVENT_DAYS_USED];
+        // calculate LIVE instead
+        $contingent_used = self::getContactEventContingentUsed($contact_id);
+
+        return $contingent_data[self::EVENT_DAYS_GRANTED] - $contingent_used;
     }
 
     /**
@@ -178,8 +180,8 @@ class CRM_Events_Logic
             return 1;
         }
 
-        $start_date = date('Y-m-d', $event['start_date']);
-        $end_date   = date('Y-m-d', $event['end_date']);
+        $start_date = date('Y-m-d', strtotime($event['start_date']));
+        $end_date   = date('Y-m-d', strtotime($event['end_date']));
         $seconds_difference = strtotime($end_date) - strtotime($start_date);
         $days_difference = $seconds_difference / (60 * 60 * 24);
         return 1 + $days_difference;
@@ -242,44 +244,6 @@ class CRM_Events_Logic
         // cache + return
         $contact_event_contingent[$contact_id] = $contingent_data;
         return $contingent_data;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Return the total event contingent the contact has (in days)
-     *
-     * @param integer $contact_id
-     *   contact ID
-     *
-     * @return integer
-     *   number of days granted to the contact
-     */
-    public static function getContactEventContingentGranted($contact_id)
-    {
-        $contact_id = (int) $contact_id;
-        if ($contact_id) {
-            $granted_field_id = (int) Civi::settings()->get('bund_event_contingent_field');
-            if ($granted_field_id) {
-                return (int) civicrm_api3('Contact', 'getvalue', [
-                    'id'     => $contact_id,
-                    'return' => "custom_{$granted_field_id}"]);
-            } else {
-                // no field ID set
-            }
-        } else {
-            // no contact ID given
-        }
-        return 0;
     }
 
     /**
