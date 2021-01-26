@@ -22,6 +22,12 @@ use CRM_Events_ExtensionUtil as E;
  */
 class CRM_Events_Logic
 {
+    const EVENT_DAYS_GRANTED = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_pflicht';
+    const EVENT_DAYS_BOOKED  = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht';
+    const EVENT_DAYS_USED    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet';
+    const EVENT_DAYS_LEFT    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_offen';
+
+
     /**
      * Check if the event registration restrictions should be
      *   applied to the given event
@@ -35,6 +41,10 @@ class CRM_Events_Logic
     public static function shouldApplyRegistrationRestrictions($event_data)
     {
         $event_types = Civi::settings()->get('bund_event_types');
+        if (empty($event_types)) {
+            return true;
+        }
+
         if (is_array($event_types) && !empty($event_types)) {
             // we look for certain event types
             if (empty($event_data['event_type_id'])) {
@@ -56,16 +66,23 @@ class CRM_Events_Logic
      * Check if the total contingent has not been exceeded
      *
      * @param integer $contact_id
-     *   contact ID
+     *   contact that wants to register
+     *
+     * @param array $event
+     *   event data
      *
      * @return boolean
      *   is there still some contingent left?
      */
-    public static function contactStillHasContingent($contact_id)
+    public static function contactStillHasContingentLeftForEvent($contact_id, $event)
     {
-        $event_contingent_granted = self::getContactEventContingentGranted($contact_id);
-        $event_contingent_used = self::getContactEventContingentUsed($contact_id);
-        return $event_contingent_used < $event_contingent_granted;
+        try {
+            $event_contingent_left = self::getContactEventContingentLeft($contact_id);
+            $event_days = self::getEventDays($event);
+            return $event_contingent_left >= $event_days;
+        } catch (CiviCRM_API3_Exception $ex) {
+            Civi::log()->debug("Error in contactStillHasContingentLeftForEvent, contact ID {$contact_id}: " . $ex->getMessage());
+        }
     }
 
     /**
@@ -126,6 +143,117 @@ class CRM_Events_Logic
         $valid_relationship_count = CRM_Core_DAO::singleValueQuery($valid_relationship_query);
         return $valid_relationship_count > 0;
     }
+
+    /**
+     * Calculate the remaining days left for the contact
+     *
+     * @param integer $contact_id
+     *   the contact
+     *
+     * @return integer
+     *   number of days left
+     */
+    public static function getContactEventContingentLeft($contact_id)
+    {
+        // todo: do live lookup of booked and granted?
+        $contingent_data = CRM_Events_Logic::getContactEventContingentData($contact_id);
+        return $contingent_data[self::EVENT_DAYS_GRANTED]
+            - $contingent_data[self::EVENT_DAYS_BOOKED]
+            - $contingent_data[self::EVENT_DAYS_USED];
+    }
+
+    /**
+     * Get the number of days an event counts for
+     *
+     * @param array $event
+     *   event data
+     *
+     * @return integer
+     *   number of days
+     */
+    public static function getEventDays($event)
+    {
+        // if end_date is empty, it's a one-day affair
+        if (empty($event['end_date'])) {
+            return 1;
+        }
+
+        $start_date = date('Y-m-d', $event['start_date']);
+        $end_date   = date('Y-m-d', $event['end_date']);
+        $seconds_difference = strtotime($end_date) - strtotime($start_date);
+        $days_difference = $seconds_difference / (60 * 60 * 24);
+        return 1 + $days_difference;
+    }
+
+
+    /**
+     * Get the contingent data from the contact
+     *
+     * @param integer $contact_id
+     *   contact ID
+     *
+     * @return array
+     *   contingent data. fields:
+     *    contact_id
+     *    EVENT_DAYS_GRANTED,
+     *    EVENT_DAYS_BOOKED,
+     *    EVENT_DAYS_USED,
+     *    EVENT_DAYS_LEFT
+     */
+    protected static function getContactEventContingentData($contact_id, $cached = true) {
+        // caching
+        static $contact_event_contingent = [];
+        $contact_id = (int) $contact_id;
+        if (!$cached) {
+            unset($contact_event_contingent[$contact_id]);
+        }
+        if (!empty($contact_event_contingent[$contact_id])) {
+            return $contact_event_contingent[$contact_id];
+        }
+
+        // warm cache
+        CRM_Events_CustomData::cacheCustomGroups(['freiwillige_zusatzinfos']);
+
+        // create field list
+        $return_fields = [
+            self::EVENT_DAYS_GRANTED => 1,
+            self::EVENT_DAYS_BOOKED => 1,
+            self::EVENT_DAYS_USED => 1,
+            self::EVENT_DAYS_LEFT => 1,
+        ];
+        CRM_Events_CustomData::resolveCustomFields($return_fields);
+        $return_field_list = 'id,' . implode(',', array_keys($return_fields));
+
+        // run the query
+        $contingent_data = civicrm_api3('Contact', 'getsingle', [
+            'id' => $contact_id,
+            'return' => $return_field_list
+        ]);
+
+
+        // prep result
+        CRM_Events_CustomData::labelCustomFields($contingent_data);
+        $contingent_data['contact_id'] = $contingent_data['id'];
+        $contingent_data[self::EVENT_DAYS_GRANTED] = CRM_Utils_Array::value(self::EVENT_DAYS_GRANTED, $contingent_data, 0);
+        $contingent_data[self::EVENT_DAYS_USED]    = CRM_Utils_Array::value(self::EVENT_DAYS_USED,    $contingent_data, 0);
+        $contingent_data[self::EVENT_DAYS_BOOKED]  = CRM_Utils_Array::value(self::EVENT_DAYS_BOOKED,  $contingent_data, 0);
+        $contingent_data[self::EVENT_DAYS_LEFT]    = CRM_Utils_Array::value(self::EVENT_DAYS_LEFT,    $contingent_data, 0);
+
+        // cache + return
+        $contact_event_contingent[$contact_id] = $contingent_data;
+        return $contingent_data;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Return the total event contingent the contact has (in days)

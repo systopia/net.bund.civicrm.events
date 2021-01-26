@@ -33,17 +33,16 @@ class CRM_Events_RemoteEventModifications
     public static function overrideRegistrationRestrictions(GetResultEvent $result)
     {
         $contact_id = $result->getRemoteContactID();
+        $event_list = &$result->getEventData();
         if ($contact_id) {
-            $event_list = $result->getEventData();
             foreach ($event_list as &$event) {
                 if (CRM_Events_Logic::shouldApplyRegistrationRestrictions($event)) {
                     // our restrictions apply here:
                     if (!empty($event['can_register'])) {
                         // registration for this contact is currently allowed,
                         //  let's see if we need to interfere
-
-                        $contact_has_contingent = CRM_Events_Logic::contactStillHasContingent($contact_id);
-                        if (!$contact_has_contingent) {
+                        $contact_has_contingent_left = CRM_Events_Logic::contactStillHasContingentLeftForEvent($contact_id, $event);
+                        if (!$contact_has_contingent_left) {
                             $result->logMessage("BUNDEvent: contact [{$contact_id}] does not have an event contingent any more");
                             $event['can_register'] = 0;
                         }
@@ -55,6 +54,13 @@ class CRM_Events_RemoteEventModifications
                         }
                     }
                 }
+            }
+
+        } else {
+            // todo: contact not known => really disable registration for all events?
+            $result->logMessage("BUNDEvent: contact [{$contact_id}] does not have the required relationship");
+            foreach ($event_list as &$event) {
+                $event['can_register'] = 0;
             }
         }
     }
@@ -68,11 +74,12 @@ class CRM_Events_RemoteEventModifications
     public static function validateRegistrationRestrictions($validation)
     {
         $contact_id = $validation->getRemoteContactID();
-        if (!CRM_Events_Logic::contactStillHasContingent($contact_id)) {
-            $validation->addError('remote_contact_id', E::ts("Contact has no more contingent to register to this event."));
+        $event_id = $validation->getEventID();
+        if (!CRM_Events_Logic::contactStillHasContingentLeftForEvent($contact_id, $event_id)) {
+            $validation->addValidationError('remote_contact_id', E::ts("Contact has not enough contingent to register to this event."));
         }
-        if (!CRM_Events_Logic::contactHasRelationship($contact_id, $validation->getEventID())) {
-            $validation->addError('remote_contact_id', E::ts("Contact doesn't have the required relationships to register to this event."));
+        if (!CRM_Events_Logic::contactHasRelationship($contact_id, $event_id)) {
+            $validation->addValidationError('remote_contact_id', E::ts("Contact doesn't have the required relationships to register to this event."));
         }
     }
 }

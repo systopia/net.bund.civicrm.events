@@ -26,12 +26,14 @@ function events_civicrm_config(&$config)
 {
     _events_civix_civicrm_config($config);
 
-    Civi::dispatcher()->addListener(
+    $dispatcher = new \Civi\RemoteDispatcher();
+
+    $dispatcher->addUniqueListener(
         'civi.remoteevent.get.result',
         ['CRM_Events_RemoteEventModifications', 'overrideRegistrationRestrictions']
     );
 
-    Civi::dispatcher()->addListener(
+    $dispatcher->addUniqueListener(
         'civi.remoteevent.registration.validate',
         ['CRM_Events_RemoteEventModifications', 'validateRegistrationRestrictions'],
         -500 // run late

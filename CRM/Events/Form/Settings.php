@@ -27,7 +27,6 @@ class CRM_Events_Form_Settings extends CRM_Core_Form
         'bund_event_types',
         'bund_event_relationship_types',
         'bund_event_relationship_offset',
-        'bund_event_contingent_field',
     ];
 
     public function buildQuickForm()
@@ -55,14 +54,6 @@ class CRM_Events_Form_Settings extends CRM_Core_Form
             'bund_event_relationship_offset',
             E::ts("Start Date Offset"),
             false
-        );
-        $this->add(
-            'select',
-            'bund_event_contingent_field',
-            E::ts("Event Contingent Field"),
-            $this->getEligibleContingentFields(),
-            false,
-            ['class' => 'crm-select2', 'placeholder' => E::ts("disabled")]
         );
 
         $this->addButtons(
