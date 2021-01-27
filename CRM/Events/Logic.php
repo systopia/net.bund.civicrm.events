@@ -22,6 +22,7 @@ use CRM_Events_ExtensionUtil as E;
  */
 class CRM_Events_Logic
 {
+    const EVENT_DAYS         = 'seminar_zusatzinfo.seminar_gesamtzahl_tage';
     const EVENT_DAYS_GRANTED = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_pflicht';
     const EVENT_DAYS_BOOKED  = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht';
     const EVENT_DAYS_USED    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet';
@@ -182,11 +183,17 @@ class CRM_Events_Logic
      */
     public static function getEventDays($event)
     {
+        // if there is something in the custom field
+        if (!empty($event['seminar_zusatzinfo.seminar_gesamtzahl_tage'])) {
+            return (int) $event['seminar_zusatzinfo.seminar_gesamtzahl_tage'];
+        }
+
         // if end_date is empty, it's a one-day affair
         if (empty($event['end_date'])) {
             return 1;
         }
 
+        // else calculate the 'temporal distance' in days and add one
         $start_date = date('Y-m-d', strtotime($event['start_date']));
         $end_date   = date('Y-m-d', strtotime($event['end_date']));
         $seconds_difference = strtotime($end_date) - strtotime($start_date);
