@@ -45,12 +45,14 @@ class CRM_Events_RemoteEventModifications
                         if (!$contact_has_contingent_left) {
                             $result->logMessage("BUNDEvent: contact [{$contact_id}] does not have an event contingent any more");
                             $event['can_register'] = 0;
+                            $event['can_instant_register'] = 0;
                         }
 
                         $contact_has_relationship = CRM_Events_Logic::contactHasRelationship($contact_id, $event['id']);
                         if (!$contact_has_relationship) {
                             $result->logMessage("BUNDEvent: contact [{$contact_id}] does not have the required relationship");
                             $event['can_register'] = 0;
+                            $event['can_instant_register'] = 0;
                         }
                     }
                 }
@@ -63,6 +65,7 @@ class CRM_Events_RemoteEventModifications
                 if (CRM_Events_Logic::shouldApplyRegistrationRestrictions($event)) {
                     // disallow, since we couldn't identify the contact
                     $event['can_register'] = 0;
+                    $event['can_instant_register'] = 0;
                     $event['can_cancel_registration'] = 0;
                     $event['can_edit_registration'] = 0;
                 }
