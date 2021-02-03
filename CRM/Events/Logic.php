@@ -303,4 +303,20 @@ class CRM_Events_Logic
         }
         return 0;
     }
+
+
+    /**
+     * Update a contact's event stats:
+     *   EVENT_DAYS_BOOKED
+     *   EVENT_DAYS_USED
+     *   EVENT_DAYS_BOOKED
+     *
+     * @param integer $contact_id
+     *   contact ID
+     */
+    public static function updateContactEventStats($contact_id)
+    {
+        
+    }
+
 }
