@@ -198,7 +198,7 @@ class CRM_Events_Logic
         // load event, if necessary
         $days_override = CRM_Events_CustomData::getCustomFieldKey('seminar_zusatzinfo', 'seminar_gesamtzahl_tage');
         if (empty($event['start_date'])) {
-            $event = civicrm_api3('Event', 'get', [
+            $event = civicrm_api3('Event', 'getsingle', [
                 'id'     => $event_id,
                 'return' => "start_date,end_date,id,{$days_override}"
             ]);
@@ -227,7 +227,7 @@ class CRM_Events_Logic
         // if there is something in the custom field
         if ($event_day_count === null && !empty($event['seminar_zusatzinfo.seminar_gesamtzahl_tage'])) {
             $event_day_count = (int) $event['seminar_zusatzinfo.seminar_gesamtzahl_tage'];
-            Civi::log()->debug("custom: {$event_day_count}");
+            //Civi::log()->debug("custom: {$event_day_count}");
         }
 
         // if end_date is empty, it's a one-day affair
@@ -245,7 +245,6 @@ class CRM_Events_Logic
         if ($event_day_count === null) {
             $start_date = date('Y-m-d', strtotime($event['start_date']));
             $end_date   = date('Y-m-d', strtotime($event['end_date']));
-            Civi::log()->debug("from {$start_date} to {$end_date}");
             $seconds_difference = strtotime($end_date) - strtotime($start_date);
             $days_difference = (int) ($seconds_difference / (60 * 60 * 24));
             $event_day_count = 1 + $days_difference;
@@ -253,7 +252,7 @@ class CRM_Events_Logic
 
         // cache and return
         $event_days[$event_id] = $event_day_count;
-        Civi::log()->debug("Event [{$event_id}] has {$event_day_count} counts");
+        //Civi::log()->debug("Event [{$event_id}] has {$event_day_count} counts");
         return $event_day_count;
     }
 
@@ -409,7 +408,7 @@ class CRM_Events_Logic
         if (!empty($update)) {
             $update['id'] = $contact_id;
             CRM_Events_CustomData::resolveCustomFields($update);
-            Civi::log()->debug("update: " . json_encode($update));
+            //Civi::log()->debug("update: " . json_encode($update));
             civicrm_api3('Contact', 'create', $update);
         }
     }
