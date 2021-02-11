@@ -206,7 +206,7 @@ class CRM_Events_Logic
                     'id'     => $event_id,
                     'return' => $field_name]);
             } catch (CiviCRM_API3_Exception $ex) {
-                Civi::log()->debug("Failed to load day count for event [{$event_id}]");
+                Civi::log()->debug("Failed to load day count for event [{$event_id}]: " . $ex->getMessage());
             }
         }
 
