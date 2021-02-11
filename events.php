@@ -38,6 +38,53 @@ function events_civicrm_config(&$config)
         ['CRM_Events_RemoteEventModifications', 'validateRegistrationRestrictions'],
         -500 // run late
     );
+
+    $dispatcher->addUniqueListener(
+        'civi.remoteevent.registration.submit',
+        ['CRM_Events_Logic', 'triggerUpdateContactEventStats'], CRM_Remoteevent_Registration::AFTER_PARTICIPANT_CREATION);
+
+}
+
+/**
+ * POST hook
+ * @see https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_post/
+ */
+function events_civicrm_post($op, $objectName, $objectId, &$objectRef) {
+    if ($objectName == 'Participant' && $objectId) {
+        if ($op == 'create' || $op == 'edit' || $op == 'delete') {
+            // the participant object was manipulated -> update event data via callback (after this transaction)
+            if (CRM_Core_Transaction::isActive()) {
+                CRM_Core_Transaction::addCallback(
+                    CRM_Core_Transaction::PHASE_POST_COMMIT,
+                    'events_civicrm_post_participant_update',
+                    [$objectId, $objectRef]);
+            } else {
+                events_civicrm_post_participant_update($objectId, $objectRef);
+            }
+        }
+    }
+}
+
+/**
+ * Participant update callback: trigger contact updates
+ */
+function events_civicrm_post_participant_update($participant_id, $participantBAO) {
+    try {
+        // find the contact_id
+        if (isset($participantBAO->contact_id)) {
+            $contact_id = (int) $participantBAO->contact_id;
+        } else {
+            $contact_id = (int) civicrm_api3('Participant', 'getvalue', [
+                'id'     => $participant_id,
+                'return' => 'contact_id']);
+        }
+
+        // finally call the update
+        CRM_Events_Logic::updateContactEventStats($contact_id);
+
+    } catch (Exception $ex) {
+        Civi::log()->debug(E::LONG_NAME . ': exception prevented contact update: ' . $ex->getMessage());
+    }
 }
 
 /**

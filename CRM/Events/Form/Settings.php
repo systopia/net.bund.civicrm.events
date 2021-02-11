@@ -35,7 +35,7 @@ class CRM_Events_Form_Settings extends CRM_Core_Form
         $this->add(
             'select',
             'bund_event_types',
-            E::ts("Event Types"),
+            E::ts("Event Types (for Volunteers)"),
             $this->getEventTypes(),
             false,
             ['class' => 'crm-select2', 'multiple' => 'multiple', 'placeholder' => E::ts("all")]

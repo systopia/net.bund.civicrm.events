@@ -16,6 +16,7 @@
 
 
 use CRM_Events_ExtensionUtil as E;
+use \Civi\RemoteParticipant\Event\ChangingEvent;
 
 /**
  * RemoteEvent hooks (symfony events) implementation
@@ -183,22 +184,54 @@ class CRM_Events_Logic
      */
     public static function getEventDays($event)
     {
+        if (empty($event['id'])) {
+            return 0;
+        }
+        $event_id = (int) $event['id'];
+
+        // cache results
+        static $event_days = [];
+        if (isset($event_days[$event_id])) {
+            return $event_days[$event_id];
+        }
+
+        // start calculating
+        $event_day_count = null;
+
+        // if relevant event data loaded, just get this one value
+        if (!isset($event['seminar_zusatzinfo.seminar_gesamtzahl_tage'])) {
+            try {
+                $field_name = CRM_Events_CustomData::getCustomFieldKey('seminar_zusatzinfo', 'seminar_gesamtzahl_tage');
+                $event_day_count = civicrm_api3('Event', 'getvalue', [
+                    'id'     => $event_id,
+                    'return' => $field_name]);
+            } catch (CiviCRM_API3_Exception $ex) {
+                Civi::log()->debug("Failed to load day count for event [{$event_id}]");
+            }
+        }
+
         // if there is something in the custom field
-        if (!empty($event['seminar_zusatzinfo.seminar_gesamtzahl_tage'])) {
-            return (int) $event['seminar_zusatzinfo.seminar_gesamtzahl_tage'];
+        if ($event_day_count === null && !empty($event['seminar_zusatzinfo.seminar_gesamtzahl_tage'])) {
+            $event_day_count = (int) $event['seminar_zusatzinfo.seminar_gesamtzahl_tage'];
         }
 
         // if end_date is empty, it's a one-day affair
-        if (empty($event['end_date'])) {
-            return 1;
+        if ($event_day_count === null && empty($event['end_date'])) {
+            $event_day_count = 1;
         }
 
         // else calculate the 'temporal distance' in days and add one
-        $start_date = date('Y-m-d', strtotime($event['start_date']));
-        $end_date   = date('Y-m-d', strtotime($event['end_date']));
-        $seconds_difference = strtotime($end_date) - strtotime($start_date);
-        $days_difference = $seconds_difference / (60 * 60 * 24);
-        return 1 + $days_difference;
+        if ($event_day_count === null) {
+            $start_date = date('Y-m-d', strtotime($event['start_date']));
+            $end_date   = date('Y-m-d', strtotime($event['end_date']));
+            $seconds_difference = strtotime($end_date) - strtotime($start_date);
+            $days_difference = $seconds_difference / (60 * 60 * 24);
+            $event_day_count = 1 + $days_difference;
+        }
+
+        // cache and return
+        $event_days[$event_id] = $event_day_count;
+        return $event_day_count;
     }
 
 
@@ -250,10 +283,10 @@ class CRM_Events_Logic
         // prep result
         CRM_Events_CustomData::labelCustomFields($contingent_data);
         $contingent_data['contact_id'] = $contingent_data['id'];
-        $contingent_data[self::EVENT_DAYS_GRANTED] = CRM_Utils_Array::value(self::EVENT_DAYS_GRANTED, $contingent_data, 0);
-        $contingent_data[self::EVENT_DAYS_USED]    = CRM_Utils_Array::value(self::EVENT_DAYS_USED,    $contingent_data, 0);
-        $contingent_data[self::EVENT_DAYS_BOOKED]  = CRM_Utils_Array::value(self::EVENT_DAYS_BOOKED,  $contingent_data, 0);
-        $contingent_data[self::EVENT_DAYS_LEFT]    = CRM_Utils_Array::value(self::EVENT_DAYS_LEFT,    $contingent_data, 0);
+        $contingent_data[self::EVENT_DAYS_GRANTED] = (int) CRM_Utils_Array::value(self::EVENT_DAYS_GRANTED, $contingent_data, 0);
+        $contingent_data[self::EVENT_DAYS_USED]    = (int) CRM_Utils_Array::value(self::EVENT_DAYS_USED,    $contingent_data, 0);
+        $contingent_data[self::EVENT_DAYS_BOOKED]  = (int) CRM_Utils_Array::value(self::EVENT_DAYS_BOOKED,  $contingent_data, 0);
+        $contingent_data[self::EVENT_DAYS_LEFT]    = (int) CRM_Utils_Array::value(self::EVENT_DAYS_LEFT,    $contingent_data, 0);
 
         // cache + return
         $contact_event_contingent[$contact_id] = $contingent_data;
@@ -267,41 +300,52 @@ class CRM_Events_Logic
      * @param integer $contact_id
      *   contact ID
      *
+     * @param boolean $already_spent
+     *   has the registered event already started and/or ended?
+     *
      * @return integer
      *   number of days used by the contact
      *
      * @todo consider roles? consider multiple participants per contact&event?
      */
-    public static function getContactEventContingentUsed($contact_id)
+    public static function getContactEventContingentUsed($contact_id, $already_spent = true)
     {
         $contact_id = (int) $contact_id;
+        $number_of_days = 0;
+
         if ($contact_id) {
             // check if we restrict to certain event types
-            $AND_HAS_THE_RIGHT_EVENT_TYPE = 'AND TRUE';
+            $HAS_THE_RIGHT_EVENT_TYPE = 'TRUE';
             $event_types = Civi::settings()->get('bund_event_types');
             if (is_array($event_types) && !empty($event_types)) {
                 $event_type_list = implode(',', array_map('intval', $event_types));
-                $AND_HAS_THE_RIGHT_EVENT_TYPE = "AND event.event_type_id IN ({$event_type_list})";
+                $HAS_THE_RIGHT_EVENT_TYPE = "event.event_type_id IN ({$event_type_list})";
             }
+
+            // selecting for past events or upcoming ones?
+            $EVENT_SELECTOR = $already_spent ? "DATE(event.start_date) < DATE(NOW())"
+                                             : "DATE(event.start_date) >= DATE(NOW())";
 
             // build query
             $query = "
-                SELECT SUM(
-                    IF(event.end_date IS NOT NULL, DATEDIFF(event.end_date, event.start_date), 0) + 1
-                ) AS total_days
+                SELECT GROUP_CONCAT(DISTINCT(event.id)) AS events
                 FROM civicrm_participant participant
                 LEFT JOIN civicrm_event  event
                        ON event.id = participant.event_id
                 LEFT JOIN civicrm_participant_status_type status_type
                        ON status_type.id = participant.status_id 
                 WHERE participant.contact_id = {$contact_id}
-                  AND status_type.class IN ('Positive', 'Pending')
-                  {$AND_HAS_THE_RIGHT_EVENT_TYPE}";
-            return (int) CRM_Core_DAO::singleValueQuery($query);
-        } else {
-            // no contact ID given
+                  AND status_type.class IN ('Positive')
+                  AND {$EVENT_SELECTOR}
+                  AND {$HAS_THE_RIGHT_EVENT_TYPE}";
+            $events = CRM_Core_DAO::singleValueQuery($query);
+            foreach (explode(',', $events) as $event_id) {
+                if ($event_id) {
+                    $number_of_days += self::getEventDays(['id' => $event_id]);
+                }
+            }
         }
-        return 0;
+        return $number_of_days;
     }
 
 
@@ -316,7 +360,49 @@ class CRM_Events_Logic
      */
     public static function updateContactEventStats($contact_id)
     {
-        
+        $contact_id = (int) $contact_id;
+        if (!$contact_id) return;
+
+        $current_values = self::getContactEventContingentData($contact_id, false);
+        $update = [];
+        // check days used
+        $days_used = self::getContactEventContingentUsed($contact_id, true);
+        if ($current_values[self::EVENT_DAYS_USED] != $days_used) {
+            $update[self::EVENT_DAYS_USED] = $days_used;
+        }
+
+        // check days booked
+        $days_booked = self::getContactEventContingentUsed($contact_id, false);
+        if ($current_values[self::EVENT_DAYS_BOOKED] != $days_booked) {
+            $update[self::EVENT_DAYS_BOOKED] = $days_booked;
+        }
+
+        $days_left = $current_values[self::EVENT_DAYS_GRANTED] - $days_used - $days_booked;
+        if ($current_values[self::EVENT_DAYS_LEFT] != $days_left) {
+            $update[self::EVENT_DAYS_LEFT] = $days_left;
+        }
+
+        // update if there is differences
+        if (!empty($update)) {
+            $update['id'] = $contact_id;
+            CRM_Events_CustomData::resolveCustomFields($update);
+            civicrm_api3('Contact', 'create', $update);
+        }
     }
 
+    /**
+     * Trigger the event status update after a registration/update/cancel
+     *
+     * @param ChangingEvent $event
+     *   token list event
+     */
+    public static function triggerUpdateContactEventStats($event)
+    {
+        if (!$event->hasErrors()) {
+            $contact_id = (int) $event->getContactID();
+            if ($contact_id) {
+                self::updateContactEventStats($contact_id);
+            }
+        }
+    }
 }
