@@ -200,13 +200,16 @@ class CRM_Events_Logic
 
         // if relevant event data loaded, just get this one value
         if (!isset($event['seminar_zusatzinfo.seminar_gesamtzahl_tage'])) {
-            try {
-                $field_name = CRM_Events_CustomData::getCustomFieldKey('seminar_zusatzinfo', 'seminar_gesamtzahl_tage');
-                $event_day_count = civicrm_api3('Event', 'getvalue', [
-                    'id'     => $event_id,
-                    'return' => $field_name]);
-            } catch (CiviCRM_API3_Exception $ex) {
-                Civi::log()->debug("Failed to load day count for event [{$event_id}]: " . $ex->getMessage());
+            $custom_table = CRM_Events_CustomData::getGroupTable('seminar_zusatzinfo');
+            $custom_field = CRM_Events_CustomData::getCustomField('seminar_zusatzinfo', 'seminar_gesamtzahl_tage');
+            if ($custom_field && $custom_table) {
+                $result = CRM_Core_DAO::singleValueQuery("
+                    SELECT {$custom_field['column_name']}
+                    FROM {$custom_table}
+                    WHERE entity_id = {$event_id}");
+                if ($result !== null) {
+                    $event_day_count = (int) $result;
+                }
             }
         }
 
