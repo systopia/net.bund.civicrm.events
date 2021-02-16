@@ -28,6 +28,7 @@ function events_civicrm_config(&$config)
 
     $dispatcher = new \Civi\RemoteDispatcher();
 
+    // ADD REMOTE EVENT PROFILE
     $dispatcher->addUniqueListener(
         'civi.remoteevent.get.result',
         ['CRM_Events_RemoteEventModifications', 'overrideRegistrationRestrictions']
@@ -42,6 +43,12 @@ function events_civicrm_config(&$config)
     $dispatcher->addUniqueListener(
         'civi.remoteevent.registration.submit',
         ['CRM_Events_Logic', 'triggerUpdateContactEventStats'], CRM_Remoteevent_Registration::AFTER_PARTICIPANT_CREATION);
+
+
+    // ADD REMOTE CONTACT PROFILE
+    $dispatcher->addUniqueListener(
+        'civi.remotecontact.getprofiles',
+        ['CRM_Events_Profile_EventDaysProfile', 'registerProfile']);
 
 }
 
