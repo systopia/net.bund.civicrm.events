@@ -38,6 +38,19 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
 //        'seminar_zusatzinfo.politische_bildung_tage_offen',
     ];
 
+    /**
+     * Is this profile suitable for the RemoteContact.get_self method?
+     *
+     * @param $request RemoteContactGetRequest
+     *   the request to execute
+     *
+     * @return boolean
+     *   does this profile only return the data of the caller?
+     */
+    public function isOwnDataProfile($request)
+    {
+        return true;
+    }
 
     /**
      * Initialise the profile. This is a good place to do some sanity checks
@@ -49,6 +62,10 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
     public function initProfile($request)
     {
         // implement this to format the results before delivery
+        $contact_id = $request->getCallerContactID();
+        if (!$contact_id) {
+            $request->addError(E::ts("This profile can only be used when the caller is identified."));
+        }
     }
 
     /**
@@ -82,6 +99,9 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
     {
         $request_data['contact_type'] = 'Individual';
         $request_data['contact_sub_type'] = 'Freiwillige';
+
+        // this is the OWN event days profile
+        $request_data['id'] = $request->getCallerContactID();
     }
 
     /**
@@ -130,18 +150,6 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
 
 
     /**
-     * Register the profiles provided by this module itself.
-     *
-     * @param GetRemoteContactProfiles $profiles
-     */
-    public static function registerProfile($profiles)
-    {
-        if ($profiles->matchesName(self::PROFILE_NAME)) {
-            $profiles->addInstance(new CRM_Events_Profile_EventDaysProfile());
-        }
-    }
-
-    /**
      * Return a mapping
      *  of custom_xx to fully qualified custom field name
      *  of all fields shown by this field
@@ -157,5 +165,19 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
             CRM_Events_CustomData::resolveCustomFields($field_mapping);
         }
         return $field_mapping;
+    }
+
+
+
+    /**
+     * Register the profiles provided by this module itself.
+     *
+     * @param GetRemoteContactProfiles $profiles
+     */
+    public static function registerProfiles($profiles)
+    {
+        if ($profiles->matchesName(CRM_Events_Profile_EventDaysProfile::PROFILE_NAME)) {
+            $profiles->addInstance(new CRM_Events_Profile_EventDaysProfile());
+        }
     }
 }

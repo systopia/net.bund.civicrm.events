@@ -48,7 +48,7 @@ function events_civicrm_config(&$config)
     // ADD REMOTE CONTACT PROFILE
     $dispatcher->addUniqueListener(
         'civi.remotecontact.getprofiles',
-        ['CRM_Events_Profile_EventDaysProfile', 'registerProfile']);
+        ['CRM_Events_Profile_EventDaysProfile', 'registerProfiles']);
 
 }
 
