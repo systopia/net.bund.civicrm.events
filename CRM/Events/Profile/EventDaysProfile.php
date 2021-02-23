@@ -69,19 +69,22 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
     }
 
     /**
-     * Get the list of fields to be returned.
-     *  This is meant to be overwritten by the profile
-     *
-     * @param $request RemoteContactGetRequest
-     *   the request to execute
+     * Get a mapping of external field names to
+     *  the internal ones,
+     *   e.g. ['my_super_field' => 'custom_23']
      *
      * @return array
+     *   [external field name => internal field name]
      */
-    public function getReturnFields($request)
+    public function getExternalToInternalFieldMapping()
     {
-        // get the list of fields this profile wants/needs
-        $fields = $this->getRequestedFieldMapping();
-        return array_keys($fields);
+        $field_mapping = $this->getRequestedFieldMapping();
+        $external_mapping = [];
+        foreach ($field_mapping as $internal_name => $full_name) {
+            $external_name = explode('.', $full_name)[1];
+            $external_mapping[$external_name] = $internal_name;
+        }
+        return $external_mapping;
     }
 
     /**
@@ -97,6 +100,7 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      */
     public function applyRestrictions($request, &$request_data)
     {
+        parent::applyRestrictions($request, $request_data);
         $request_data['contact_type'] = 'Individual';
         $request_data['contact_sub_type'] = 'Freiwillige';
 
@@ -115,13 +119,14 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      */
     public function filterResult($request, &$reply_records)
     {
-        $fields = $this->getRequestedFieldMapping();
+        parent::filterResult($request, $reply_records);
+
+        $fields = $this->getInternalToExternalFieldMapping();
         foreach (array_keys($reply_records) as $index) {
             $old_record = $reply_records[$index];
             $new_record = [];
             foreach ($fields as $civicrm_field => $field_name) {
-                $new_field_name = explode('.', $field_name)[1];
-                $new_record[$new_field_name] = CRM_Utils_Array::value($civicrm_field, $old_record, 0);
+                $new_record[$field_name] = CRM_Utils_Array::value($civicrm_field, $old_record, 0);
             }
             $reply_records[$index] = $new_record;
         }
@@ -143,6 +148,8 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
                      'type' => CRM_Utils_Type::T_INT,
                      'title' => $custom_field['label'],
                      'localizable' => 0,
+                     'api.filter' => 0,
+                     'api.sort' => 0,
                      'is_core_field' => false,
                  ]);
         }
