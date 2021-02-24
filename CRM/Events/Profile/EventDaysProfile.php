@@ -39,6 +39,28 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
     ];
 
     /**
+     * Get the profile's ID
+     *
+     * @return string
+     *   profile ID
+     */
+    public function getProfileID()
+    {
+        return self::PROFILE_NAME;
+    }
+
+    /**
+     * Get the profile's (human readable) name
+     *
+     * @return string
+     *   profile ID
+     */
+    public function getProfileName()
+    {
+        return E::ts("Own Seminar Days");
+    }
+
+    /**
      * Is this profile suitable for the RemoteContact.get_self method?
      *
      * @param $request RemoteContactGetRequest
