@@ -175,19 +175,26 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
             }
 
             // look up service
-            $active_service_relationships = civicrm_api3('Relationship', 'get', [
-                'return'       => 'start_date,end_date',
-                'option.limit' => 1,
-                'contact_id_a' => $old_record['id'],
-                'is_active'    => 1,
-                'option.sort'  => 'id desc'
-            ]);
-            if (!empty($active_service_relationships['values'])) {
-                // there should either be zero or one (api call was limited)
-                foreach ($active_service_relationships['values'] as $active_service_relationship) {
-                    $new_record['service_start_date'] = CRM_Utils_Array::value('start_date', $active_service_relationship);
-                    $new_record['service_end_date']   = CRM_Utils_Array::value('end_date', $active_service_relationship);
+            try {
+                $relationship_type_id = civicrm_api3('RelationshipType', 'getvalue',
+                                                     ['name_a_b' => 'ist Freiwillige* bei', 'return' => 'id']);
+                $active_service_relationships = civicrm_api3('Relationship', 'get', [
+                    'relationship_type_id' => $relationship_type_id,
+                    'return'       => 'start_date,end_date',
+                    'option.limit' => 1,
+                    'contact_id_a' => $old_record['id'],
+                    'is_active'    => 1,
+                    'option.sort'  => 'id desc'
+                ]);
+                if (!empty($active_service_relationships['values'])) {
+                    // there should either be zero or one (api call was limited)
+                    foreach ($active_service_relationships['values'] as $active_service_relationship) {
+                        $new_record['service_start_date'] = CRM_Utils_Array::value('start_date', $active_service_relationship);
+                        $new_record['service_end_date']   = CRM_Utils_Array::value('end_date', $active_service_relationship);
+                    }
                 }
+            } catch (CiviCRM_API3_Exception $ex) {
+                Civi::log()->debug("Error fetching relationship/type for contact [{$old_record['id']}].");
             }
 
             // replace the record
