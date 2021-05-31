@@ -208,5 +208,8 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
         if ($profiles->matchesName(CRM_Events_Profile_EventDaysProfile::PROFILE_NAME)) {
             $profiles->addInstance(new CRM_Events_Profile_EventDaysProfile());
         }
+        if ($profiles->matchesName(CRM_Events_Profile_MyDataProfile::PROFILE_NAME)) {
+            $profiles->addInstance(new CRM_Events_Profile_MyDataProfile());
+        }
     }
 }

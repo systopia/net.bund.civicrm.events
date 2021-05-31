@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: net.bund.civicrm.events\n"
-"POT-Creation-Date: 2021-02-01 15:57+0400\n"
+"POT-Creation-Date: 2021-05-31 19:27+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -21,8 +21,8 @@ msgid "BUND Event Configuration"
 msgstr "BUND Seminar-Einstellungen"
 
 #: CRM/Events/Form/Settings.php
-msgid "Event Types"
-msgstr "Veranstaltungsarten"
+msgid "Event Types (for Volunteers)"
+msgstr "Veranstaltungsarten (für Freiwillige)"
 
 #: CRM/Events/Form/Settings.php
 msgid "all"
@@ -52,6 +52,74 @@ msgstr "Gespeichert"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
+#: CRM/Events/Profile/EventDaysProfile.php
+msgid "Own Seminar Days"
+msgstr "Meine Seminartage"
+
+#: CRM/Events/Profile/EventDaysProfile.php CRM/Events/Profile/MyDataProfile.php
+msgid "This profile can only be used when the caller is identified."
+msgstr "Dieses Profil kann nur verwendet werden, wenn der Aufrufer identifiziert wurde."
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Volunteer - My Data"
+msgstr "Freiwilliger - Mein Profil"
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Display Name"
+msgstr ""
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Street Address"
+msgstr ""
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Supplemental Address 1"
+msgstr ""
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Supplemental Address 2"
+msgstr ""
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Postal Code"
+msgstr ""
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "City"
+msgstr ""
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Email"
+msgstr ""
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Phone"
+msgstr ""
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Regionalstelle"
+msgstr "Regionalstelle"
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Supervisor - Display Name"
+msgstr "BetreuerIn - Name"
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Supervisor - Email"
+msgstr "BetreuerIn - E-Mail"
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Supervisor - Phone"
+msgstr "BetreuerIn - Telefon"
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Service - Start Date"
+msgstr "Dienstbeginn"
+
+#: CRM/Events/Profile/MyDataProfile.php
+msgid "Service - End Date"
+msgstr "Dienstende"
+
 #: CRM/Events/RemoteEventModifications.php
 msgid "Contact has not enough contingent to register to this event."
 msgstr "Der Teilnehmer hat nicht mehr genügend Tageskontingent."
@@ -63,3 +131,22 @@ msgstr "Der Teilnehmer hat keine aktive Beziehung mehr zur Einsatzstelle."
 #: CRM/Events/Upgrader/Base.php
 msgid "Upgrade %1 to revision %2"
 msgstr ""
+
+#: api/v3/Contact/UpdateEventStats.php
+msgid "Contact ID"
+msgstr "Kontakt ID"
+
+#: api/v3/Contact/UpdateEventStats.php
+msgid "Contact ID of the contact to update"
+msgstr "ID des Kontakts"
+
+#: api/v3/Contact/UpdateEventStats.php
+msgid "List/array of contact IDs"
+msgstr "Liste/Array von Kontakt-IDs"
+
+#: api/v3/Contact/UpdateEventStats.php
+msgid "This can be a comma-separated list or an array"
+msgstr "Dies kann eine Komma-separierte Liste sein, oder ein Array"
+
+#~ msgid "Event Types"
+#~ msgstr "Veranstaltungsarten"
