@@ -41,8 +41,8 @@ class CRM_Events_RemoteEventModifications
                     if (!empty($event['can_register'])) {
                         // registration for this contact is currently allowed,
                         //  let's see if we need to interfere
-                        $contact_has_contingent_left = CRM_Events_Logic::contactStillHasContingentLeftForEvent($contact_id, $event);
-                        if (!$contact_has_contingent_left) {
+                        $contact_contingent_left = CRM_Events_Logic::contactStillHasContingentLeftForEvent($contact_id, $event);
+                        if ($contact_contingent_left) {
                             $result->logMessage("BUNDEvent: contact [{$contact_id}] does not have an event contingent any more");
                             $event['can_register'] = 0;
                             $event['can_instant_register'] = 0;

@@ -89,6 +89,7 @@ class CRM_Events_Logic
         try {
             $event_contingent_left = self::getContactEventContingentLeft($contact_id);
             $event_days = self::getEventDays($event);
+            Civi::log()->debug("Contact [{$contact_id}] needs {$event_days} day(s) and has {$event_contingent_left} day(s) left");
             return $event_contingent_left >= $event_days;
         } catch (CiviCRM_API3_Exception $ex) {
             Civi::log()->debug("Error in contactStillHasContingentLeftForEvent, contact ID {$contact_id}: " . $ex->getMessage());
@@ -322,15 +323,18 @@ class CRM_Events_Logic
      * @param integer $contact_id
      *   contact ID
      *
-     * @param boolean $already_spent
-     *   has the registered event already started and/or ended?
+     * @param string $restrict
+     *   can have the following values:
+     *    'past': only counts events in the past
+     *    'future': only counts events in the future, including today
+     *    otherwise: all (eligible) events
      *
      * @return integer
      *   number of days used by the contact
      *
      * @todo consider roles? consider multiple participants per contact&event?
      */
-    public static function getContactEventContingentUsed($contact_id, $already_spent = true)
+    public static function getContactEventContingentUsed($contact_id, $restrict = null)
     {
         $contact_id = (int) $contact_id;
         $number_of_days = 0;
@@ -345,8 +349,20 @@ class CRM_Events_Logic
             }
 
             // selecting for past events or upcoming ones?
-            $EVENT_SELECTOR = $already_spent ? "DATE(event.start_date) < DATE(NOW())"
-                                             : "DATE(event.start_date) >= DATE(NOW())";
+            switch ($restrict) {
+                case 'past':
+                    $EVENT_SELECTOR = "DATE(event.start_date) < DATE(NOW())";
+                    break;
+
+                case 'future':
+                    $EVENT_SELECTOR = "DATE(event.start_date) >= DATE(NOW())";
+                    break;
+
+                default:
+                    $EVENT_SELECTOR = "TRUE";
+                    break;
+
+            }
 
             // build query
             $query = "
@@ -388,13 +404,13 @@ class CRM_Events_Logic
         $current_values = self::getContactEventContingentData($contact_id, false);
         $update = [];
         // check days used
-        $days_used = self::getContactEventContingentUsed($contact_id, true);
+        $days_used = self::getContactEventContingentUsed($contact_id, 'past');
         if ($current_values[self::EVENT_DAYS_USED] != $days_used) {
             $update[self::EVENT_DAYS_USED] = $days_used;
         }
 
         // check days booked
-        $days_booked = self::getContactEventContingentUsed($contact_id, false);
+        $days_booked = self::getContactEventContingentUsed($contact_id, 'future');
         if ($current_values[self::EVENT_DAYS_BOOKED] != $days_booked) {
             $update[self::EVENT_DAYS_BOOKED] = $days_booked;
         }
