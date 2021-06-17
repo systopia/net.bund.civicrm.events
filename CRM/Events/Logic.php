@@ -23,13 +23,18 @@ use \Civi\RemoteParticipant\Event\ChangingEvent;
  */
 class CRM_Events_Logic
 {
+    // participation obligation
     const EVENT_DAYS         = 'seminar_zusatzinfo.seminar_gesamtzahl_tage';
     const EVENT_DAYS_GRANTED = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_pflicht';
     const EVENT_DAYS_BOOKED  = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht';
     const EVENT_DAYS_USED    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet';
     const EVENT_DAYS_LEFT    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_offen';
-    const EVENT_DAYS_MISSED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_entschuldigt';
-    const EVENT_DAYS_FAILED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_unentschuldigt';
+
+    // missed (with valid excuse) and skipped (no excuse) days
+    const TOTAL_DAYS_MISSED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_entschuldigt';
+    const TOTAL_DAYS_SKIPPED = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_unentschuldigt';
+    const EVENT_DAYS_MISSED  = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_entschuldigt';
+    const EVENT_DAYS_SKIPPED = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_unentschuldigt';
 
     // currently not used, relationship(s) defined via settings, using is_active flag at relationship
     //    const RELATIONSHIP_NAME         = 'ist Freiwillige* bei';
@@ -292,6 +297,8 @@ class CRM_Events_Logic
             self::EVENT_DAYS_BOOKED => 1,
             self::EVENT_DAYS_USED => 1,
             self::EVENT_DAYS_LEFT => 1,
+            self::TOTAL_DAYS_MISSED => 1,
+            self::TOTAL_DAYS_SKIPPED => 1,
         ];
         CRM_Events_CustomData::resolveCustomFields($return_fields);
         $return_field_list = 'id,' . implode(',', array_keys($return_fields));
@@ -386,6 +393,55 @@ class CRM_Events_Logic
         return $number_of_days;
     }
 
+    /**
+     * Return the accumulated missed (with excuse) and skipped (w/o excuse) days,
+     *  explicitly NOT checking the participant status.
+     *
+     * @param integer $contact_id
+     *   contact ID
+     *
+     * @return array
+     *   [missed_days, skipped_days]
+     *
+     * @see https://pws.bund.net/issues/4691
+     */
+    public static function getMissedDays($contact_id)
+    {
+        $contact_id = (int) $contact_id;
+        if ($contact_id) {
+            // check if we restrict to certain event types
+            $HAS_THE_RIGHT_EVENT_TYPE = 'TRUE';
+            $event_types = Civi::settings()->get('bund_event_types');
+            if (is_array($event_types) && !empty($event_types)) {
+                $event_type_list = implode(',', array_map('intval', $event_types));
+                $HAS_THE_RIGHT_EVENT_TYPE = "event.event_type_id IN ({$event_type_list})";
+            }
+
+            // build query
+            $custom_table = CRM_Events_CustomData::getGroupTable('teilnehmer_zusatzinfo');
+            $days_missed  = CRM_Events_CustomData::getCustomField('teilnehmer_zusatzinfo', 'teilnehmer_fehltage_entschuldigt');
+            $days_skipped = CRM_Events_CustomData::getCustomField('teilnehmer_zusatzinfo', 'teilnehmer_fehltage_unentschuldigt');
+            $query = "
+                SELECT 
+                       SUM(participant_data.{$days_missed['column_name']})  AS days_missed,
+                       SUM(participant_data.{$days_skipped['column_name']}) AS days_skipped
+                FROM civicrm_participant participant
+                LEFT JOIN {$custom_table} participant_data
+                       ON participant_data.entity_id = participant.id
+                LEFT JOIN civicrm_event  event
+                       ON event.id = participant.event_id
+                WHERE participant.contact_id = {$contact_id}
+                  AND {$HAS_THE_RIGHT_EVENT_TYPE}
+                GROUP BY participant.contact_id";
+            $data = CRM_Core_DAO::executeQuery($query);
+            $data->fetch();
+            return [
+                (isset($data->days_missed)  ? (int) $data->days_missed  : 0),
+                (isset($data->days_skipped) ? (int) $data->days_skipped : 0),
+            ];
+        }
+        return [0,0];
+    }
 
     /**
      * Update a contact's event stats:
@@ -418,6 +474,15 @@ class CRM_Events_Logic
         $days_left = $current_values[self::EVENT_DAYS_GRANTED] - $days_used - $days_booked;
         if ($current_values[self::EVENT_DAYS_LEFT] != $days_left) {
             $update[self::EVENT_DAYS_LEFT] = $days_left;
+        }
+
+        // check missed/skipped days (see BUND-4691)
+        list($missed_days, $skipped_days) = self::getMissedDays($contact_id);
+        if ($current_values[self::TOTAL_DAYS_MISSED] != $missed_days) {
+            $update[self::TOTAL_DAYS_MISSED] = $missed_days;
+        }
+        if ($current_values[self::TOTAL_DAYS_SKIPPED] != $skipped_days) {
+            $update[self::TOTAL_DAYS_SKIPPED] = $skipped_days;
         }
 
         // update if there is differences
