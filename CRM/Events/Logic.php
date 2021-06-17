@@ -240,7 +240,7 @@ class CRM_Events_Logic
         if ($event_day_count === null) {
             // make sure the end date is loaded
             if (!isset($event['end_date'])) {
-                $event['end_date'] = civicrm_api3('Event', 'getvalue', ['id' => $event_id, 'return' => 'end_date']);
+                $event['end_date'] = civicrm_api3('Event', 'getvalue', ['id' => $event_id, 'return' => 'event_end_date']);
             }
             if (empty($event['end_date'])) {
                 $event_day_count = 1;
