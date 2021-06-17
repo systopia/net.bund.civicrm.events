@@ -35,6 +35,7 @@ class CRM_Events_Logic
     const TOTAL_DAYS_SKIPPED = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_unentschuldigt';
     const EVENT_DAYS_MISSED  = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_entschuldigt';
     const EVENT_DAYS_SKIPPED = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_unentschuldigt';
+    const EVENT_DAYS_TOTAL   = 'teilnehmer_zusatzinfo.teilnehmer_gesamttage_anmeldung';
 
     // currently not used, relationship(s) defined via settings, using is_active flag at relationship
     //    const RELATIONSHIP_NAME         = 'ist Freiwillige* bei';
@@ -93,7 +94,7 @@ class CRM_Events_Logic
     {
         try {
             $event_contingent_left = self::getContactEventContingentLeft($contact_id);
-            $event_days = self::getEventDays($event);
+            $event_days = self::getPersonalEventDays($event, $contact_id);
             Civi::log()->debug("Contact [{$contact_id}] needs {$event_days} day(s) and has {$event_contingent_left} day(s) left");
             return $event_contingent_left >= $event_days;
         } catch (CiviCRM_API3_Exception $ex) {
@@ -177,6 +178,45 @@ class CRM_Events_Logic
         $contingent_used = self::getContactEventContingentUsed($contact_id);
 
         return $contingent_data[self::EVENT_DAYS_GRANTED] - $contingent_used;
+    }
+
+    /**
+     * Get the number of days an event counts as for this particular contact
+     *
+     * @param array $event
+     *   event data
+     *
+     * @param integer $contact_id
+     *   contact ID, since a contact's participant can overwrite the event days
+     *   see https://pws.bund.net/issues/4691 item 3
+     *
+     * @return integer
+     *   number of days
+     */
+    public static function getPersonalEventDays($event, $contact_id)
+    {
+        $contact_id = (int) $contact_id;
+        $event_id   = (int) $event['id'];
+        if (empty($event_id)) {
+            return 0;
+        }
+
+        // if the EVENT_DAYS_TOTAL field is set of one of the participants,
+        //   then that overrules the value given by the event
+        $custom_table = CRM_Events_CustomData::getGroupTable('teilnehmer_zusatzinfo');
+        $custom_field = CRM_Events_CustomData::getCustomField('teilnehmer_zusatzinfo', 'teilnehmer_gesamttage_anmeldung');
+        $custom_event_days = CRM_Core_DAO::singleValueQuery("
+            SELECT MAX({$custom_field['column_name']}) AS event_days_override
+            FROM civicrm_participant participant
+            LEFT JOIN {$custom_table} additional_participant_values
+                   ON additional_participant_values.entity_id = participant.id
+            WHERE participant.contact_id = {$contact_id}
+              AND participant.event_id = {$event_id};");
+        if ($custom_event_days) {
+            return (int) $custom_event_days;
+        } else {
+            return self::getEventDays($event);
+        }
     }
 
     /**
@@ -386,7 +426,7 @@ class CRM_Events_Logic
             $events = CRM_Core_DAO::singleValueQuery($query);
             foreach (explode(',', $events) as $event_id) {
                 if ($event_id) {
-                    $number_of_days += self::getEventDays(['id' => $event_id]);
+                    $number_of_days += self::getPersonalEventDays(['id' => $event_id], $contact_id);
                 }
             }
         }
