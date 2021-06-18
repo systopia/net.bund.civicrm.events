@@ -204,19 +204,34 @@ class CRM_Events_Logic
         // if the EVENT_DAYS_TOTAL field is set of one of the participants,
         //   then that overrules the value given by the event
         $custom_table = CRM_Events_CustomData::getGroupTable('teilnehmer_zusatzinfo');
-        $custom_field = CRM_Events_CustomData::getCustomField('teilnehmer_zusatzinfo', 'teilnehmer_gesamttage_anmeldung');
-        $custom_event_days = CRM_Core_DAO::singleValueQuery("
-            SELECT MAX({$custom_field['column_name']}) AS event_days_override
+        $days_override_field = CRM_Events_CustomData::getCustomField('teilnehmer_zusatzinfo', 'teilnehmer_gesamttage_anmeldung');
+        $days_skipped_field  = CRM_Events_CustomData::getCustomField('teilnehmer_zusatzinfo', 'teilnehmer_fehltage_unentschuldigt');
+        $event_days_override = CRM_Core_DAO::executeQuery("
+            SELECT 
+                   MAX({$days_override_field['column_name']}) AS event_days_override,
+                   MAX({$days_skipped_field['column_name']})  AS event_days_skipped
             FROM civicrm_participant participant
             LEFT JOIN {$custom_table} additional_participant_values
                    ON additional_participant_values.entity_id = participant.id
             WHERE participant.contact_id = {$contact_id}
-              AND participant.event_id = {$event_id};");
-        if ($custom_event_days) {
-            return (int) $custom_event_days;
+              AND participant.event_id = {$event_id}
+            GROUP BY participant.contact_id;");
+        $event_days_override->fetch();
+
+        // first get the total event_days
+        $event_days = 0;
+        if (!empty($event_days_override->event_days_override)) {
+            $event_days = (int)$event_days_override->event_days_override;
         } else {
-            return self::getEventDays($event);
+            $event_days = self::getEventDays($event);
         }
+
+        // potentially subtract the skipped days - those will not be counted
+        if (!empty($event_days_override->event_days_skipped)) {
+            $event_days = $event_days - (int) $event_days_override->event_days_skipped;
+        }
+
+        return $event_days;
     }
 
     /**
@@ -420,7 +435,7 @@ class CRM_Events_Logic
                 LEFT JOIN civicrm_participant_status_type status_type
                        ON status_type.id = participant.status_id 
                 WHERE participant.contact_id = {$contact_id}
-                  AND status_type.class IN ('Positive')
+                --  AND status_type.class IN ('Positive')
                   AND {$EVENT_SELECTOR}
                   AND {$HAS_THE_RIGHT_EVENT_TYPE}";
             $events = CRM_Core_DAO::singleValueQuery($query);
@@ -517,7 +532,7 @@ class CRM_Events_Logic
         }
 
         // check missed/skipped days (see BUND-4691)
-        list($missed_days, $skipped_days) = self::getMissedDays($contact_id);
+        [$missed_days, $skipped_days] = self::getMissedDays($contact_id);
         if ($current_values[self::TOTAL_DAYS_MISSED] != $missed_days) {
             $update[self::TOTAL_DAYS_MISSED] = $missed_days;
         }
