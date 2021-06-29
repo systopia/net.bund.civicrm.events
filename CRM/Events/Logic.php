@@ -452,6 +452,7 @@ class CRM_Events_Logic
             }
 
             // build query
+            $excluded_status_ids = self::getExcludedParticipantStatusIdList();
             $query = "
                 SELECT GROUP_CONCAT(DISTINCT(event.id)) AS events
                 FROM civicrm_participant participant
@@ -460,7 +461,7 @@ class CRM_Events_Logic
                 LEFT JOIN civicrm_participant_status_type status_type
                        ON status_type.id = participant.status_id 
                 WHERE participant.contact_id = {$contact_id}
-                --  AND status_type.class IN ('Positive')
+                  AND participant.status_id NOT IN ({$excluded_status_ids})
                   AND {$EVENT_SELECTOR}
                   AND {$HAS_THE_RIGHT_EVENT_TYPE}";
             $events = CRM_Core_DAO::singleValueQuery($query);
