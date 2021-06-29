@@ -45,6 +45,29 @@ class CRM_Events_Logic
 
 
     /**
+     * Get a comma separated list of participant status IDs that are not to be considered
+     *   for calculations
+     *
+     * @return string
+     */
+    public static function getExcludedParticipantStatusIdList()
+    {
+        // @todo add a config option?
+        static $excluded_status_ids = null;
+        if ($excluded_status_ids === null) {
+            $excluded_status_ids = CRM_Core_DAO::singleValueQuery("
+                    SELECT GROUP_CONCAT(id) 
+                    FROM civicrm_participant_status_type
+                    WHERE name IN ('Cancelled','Rejected','Expired','Transferred')");
+            if (empty($excluded_status_ids)) {
+                Civi::log()->warning("BUND Events: cannot find any of the excluded status types ('Cancelled','Rejected','Expired','Transferred').");
+                $excluded_status_ids = '-1'; // avoid SQL errors
+            }
+        }
+        return $excluded_status_ids;
+    }
+
+    /**
      * Check if the event registration restrictions should be
      *   applied to the given event
      *
@@ -206,6 +229,7 @@ class CRM_Events_Logic
         $custom_table = CRM_Events_CustomData::getGroupTable('teilnehmer_zusatzinfo');
         $days_override_field = CRM_Events_CustomData::getCustomField('teilnehmer_zusatzinfo', 'teilnehmer_gesamttage_anmeldung');
         $days_skipped_field  = CRM_Events_CustomData::getCustomField('teilnehmer_zusatzinfo', 'teilnehmer_fehltage_unentschuldigt');
+        $excluded_status_ids = self::getExcludedParticipantStatusIdList();
         $event_days_override = CRM_Core_DAO::executeQuery("
             SELECT 
                    MAX({$days_override_field['column_name']}) AS event_days_override,
@@ -215,6 +239,7 @@ class CRM_Events_Logic
                    ON additional_participant_values.entity_id = participant.id
             WHERE participant.contact_id = {$contact_id}
               AND participant.event_id = {$event_id}
+              AND participant.status_id NOT IN ({$excluded_status_ids})
             GROUP BY participant.contact_id;");
         $event_days_override->fetch();
 
