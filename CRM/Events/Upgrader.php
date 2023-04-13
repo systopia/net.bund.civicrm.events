@@ -20,7 +20,7 @@ use CRM_Events_ExtensionUtil as E;
 /**
  * Collection of upgrade steps.
  */
-class CRM_Events_Upgrader extends CRM_Events_Upgrader_Base
+class CRM_Events_Upgrader extends CRM_Extension_Upgrader_Base
 {
 
     /**
