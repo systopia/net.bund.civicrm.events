@@ -83,7 +83,7 @@ class CRM_Events_RemoteEventModifications
     {
         $contact_id = $validation->getRemoteContactID();
         $event_id = $validation->getEventID();
-        if (!CRM_Events_Logic::contactStillHasContingentLeftForEvent($contact_id, $event_id)) {
+        if (!CRM_Events_Logic::contactStillHasContingentLeftForEvent($contact_id, ['id' => $event_id])) {
             $validation->addValidationError('remote_contact_id', E::ts("Contact has not enough contingent to register to this event."));
         }
         if (!CRM_Events_Logic::contactHasRelationship($contact_id, $event_id)) {
