@@ -47,6 +47,18 @@ msgstr ""
 msgid "%1 (%2)"
 msgstr ""
 
+#: CRM/Events/Form/Settings.php
+msgid "Contacts to receive notifications (comma separated contact ids)"
+msgstr ""
+
+#: CRM/Events/Form/Settings.php
+msgid "none"
+msgstr ""
+
+#: CRM/Events/Form/Settings.php
+msgid "From email address"
+msgstr ""
+
 #: CRM/Events/Profile/EventDaysProfile.php
 msgid "Own Seminar Days"
 msgstr ""
