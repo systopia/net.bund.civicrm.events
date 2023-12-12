@@ -17,6 +17,7 @@
 namespace Civi\Events;
 
 use Civi\Api4\Participant;
+use Civi\Api4\Event;
 use Civi\Core\Service\AutoSubscriber;
 use Civi\Core\Event\GenericHookEvent;
 
@@ -28,7 +29,9 @@ class ParticipantSubscriber extends AutoSubscriber {
    * @return callable[]
    */
   public static function getSubscribedEvents(): array {
-    return ['hook_civicrm_post' => 'checkParticipationOverlaps'];
+    return [
+            'hook_civicrm_post::Participant' => 'checkParticipationOverlaps'
+    ];
   }
 
   /**
@@ -36,11 +39,48 @@ class ParticipantSubscriber extends AutoSubscriber {
    * @return void
    */
   public function checkParticipationOverlaps(GenericHookEvent $e): void {
-    $events = Participant::get()
-            ->addWhere('contact_id', '=', 5)
-            ->execute();
-    foreach ($events as $event) {
-      // do something
+    if($e->action === "create") {
+      $registrations = Participant::get(FALSE)
+              ->addWhere('contact_id', '=', $e->object->contact_id)
+              ->execute();
+      // if participant attends more than one event: sort event dates
+      if($registrations->rowCount > 1) {
+        $eventsByDate = array();
+        foreach ($registrations as $registration) {
+          $event = Event::get(FALSE)
+              ->addWhere('id', '=', $registration["event_id"])
+              ->execute()
+              ->single();
+          $eventsByDate[$event["start_date"]] = $event["id"];
+          $end_date = $event["end_date"];
+          if($event["start_date"] == $end_date){
+            $end_date = $end_date . " end";
+          }
+          elseif($end_date === null){
+            $end_date = "9999-12-31 00:00:00";
+          }
+          $eventsByDate[$end_date] = $event["id"];
+        }
+        ksort($eventsByDate);
+        // check for overlapping dates
+        $overlap=false;
+        $currentEventId=null;
+        foreach($eventsByDate as $event_id){
+          if($currentEventId === null){
+            $currentEventId = $event_id;
+          }
+          else if($currentEventId == $event_id){
+            $currentEventId = null;
+          }
+          else{
+            $overlap=true;
+            break;
+          }
+        }
+        if($overlap){
+          //send email to a person
+        }
+      }
     }
   }
 
