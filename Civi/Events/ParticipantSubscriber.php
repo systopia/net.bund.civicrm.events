@@ -51,15 +51,17 @@ class ParticipantSubscriber extends AutoSubscriber {
               ->addWhere('id', '=', $registration["event_id"])
               ->execute()
               ->single();
-          $eventsByDate[$event["start_date"]] = $event["id"];
-          $end_date = $event["end_date"];
-          if($event["start_date"] == $end_date){
-            $end_date = $end_date . " end";
+          if($event["is_active"]){
+            $eventsByDate[$event["start_date"]] = $event["id"];
+            $end_date = $event["end_date"];
+            if($event["start_date"] == $end_date){
+              $end_date = $end_date . " end";
+            }
+            elseif($end_date === null){
+              $end_date = "9999-12-31 00:00:00";
+            }
+            $eventsByDate[$end_date] = $event["id"];
           }
-          elseif($end_date === null){
-            $end_date = "9999-12-31 00:00:00";
-          }
-          $eventsByDate[$end_date] = $event["id"];
         }
         ksort($eventsByDate);
         // check for overlapping dates
