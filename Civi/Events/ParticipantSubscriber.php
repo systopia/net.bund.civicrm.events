@@ -52,15 +52,12 @@ class ParticipantSubscriber extends AutoSubscriber {
               ->execute()
               ->single();
           if($event["is_active"]){
-            $eventsByDate[$event["start_date"]] = $event["id"];
+            $eventsByDate[$event["start_date"] . " aaa " . $event["id"]] = $event["id"];
             $end_date = $event["end_date"];
-            if($event["start_date"] == $end_date){
-              $end_date = $end_date . " end";
+            if($end_date === null){
+              $end_date = substr($event["start_date"], 0, 10) . " 23:59:59";
             }
-            elseif($end_date === null){
-              $end_date = "9999-12-31 00:00:00";
-            }
-            $eventsByDate[$end_date] = $event["id"];
+            $eventsByDate[$end_date . " zzz " . $event["id"]] = $event["id"];
           }
         }
         ksort($eventsByDate);
