@@ -16,10 +16,12 @@
 
 namespace Civi\Events;
 
+use Civi\Api4\Email;
 use Civi\Api4\Participant;
 use Civi\Api4\Event;
 use Civi\Core\Service\AutoSubscriber;
 use Civi\Core\Event\GenericHookEvent;
+use CRM_Core_BAO_MessageTemplate;
 
 // TODO: Since when does the class AutoSubscriber exist? Modify minimum CiviCRM Version accordingly
 
@@ -39,22 +41,22 @@ class ParticipantSubscriber extends AutoSubscriber {
    * @return void
    */
   public function checkParticipationOverlaps(GenericHookEvent $e): void {
-    if($e->action === "create") {
+    if ($e->action === "create") {
       $registrations = Participant::get(FALSE)
               ->addWhere('contact_id', '=', $e->object->contact_id)
               ->execute();
       // if participant attends more than one event: sort event dates
-      if($registrations->rowCount > 1) {
+      if ($registrations->rowCount > 1) {
         $eventsByDate = array();
         foreach ($registrations as $registration) {
           $event = Event::get(FALSE)
               ->addWhere('id', '=', $registration["event_id"])
               ->execute()
               ->single();
-          if($event["is_active"]){
+          if ($event["is_active"]) {
             $eventsByDate[$event["start_date"] . " aaa " . $event["id"]] = $event["id"];
             $end_date = $event["end_date"];
-            if($end_date === null){
+            if ($end_date === null) {
               $end_date = substr($event["start_date"], 0, 10) . " 23:59:59";
             }
             $eventsByDate[$end_date . " zzz " . $event["id"]] = $event["id"];
@@ -62,22 +64,39 @@ class ParticipantSubscriber extends AutoSubscriber {
         }
         ksort($eventsByDate);
         // check for overlapping dates
-        $overlap=false;
-        $currentEventId=null;
-        foreach($eventsByDate as $event_id){
-          if($currentEventId === null){
+        $overlap = false;
+        $currentEventId = null;
+        foreach ($eventsByDate as $event_id) {
+          if ($currentEventId === null) {
             $currentEventId = $event_id;
-          }
-          else if($currentEventId == $event_id){
+          } else if ($currentEventId == $event_id) {
             $currentEventId = null;
-          }
-          else{
-            $overlap=true;
+          } else {
+            $overlap = true;
             break;
           }
         }
-        if($overlap){
-          //send email to a person
+        if ($overlap) {
+
+          $participantEmail = Email::get(FALSE)
+            ->addWhere('contact_id', '=', $e->object->contact_id)
+            ->addWhere('is_primary', '=', TRUE)
+            ->execute()
+            ->single();
+
+          //option to add parameters if the message template shall contain more specific information
+          $tplParams = NULL;
+
+          CRM_Core_BAO_MessageTemplate::sendTemplate(
+            [
+              'workflow' => 'participant_overlap_bund',
+              'contactId' => $e->object->contact_id,
+              'tplParams' => $tplParams,
+              //TODO: add from email address
+              'from' => 'jana@systopia.de',
+              'toEmail' => $participantEmail['email'],
+            ]
+          );
         }
       }
     }
