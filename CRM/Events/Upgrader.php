@@ -32,27 +32,34 @@ class CRM_Events_Upgrader extends CRM_Extension_Upgrader_Base
 
     public function enable(){
 
-      $overlap_text = '{contact.email_greeting_display},
+      $overlap_text = 'Hallo Seminarverwaltung,
 
-du hast dich gerade für eine Veranstaltung des BUND angemeldet.
-Diese Veranstaltung überschneidet sich zeitlich mit anderen Veranstaltungen,
-für die du registriert bist. Bitte logge dich ein unter .... und prüfe deine Veranstaltungsteilnahmen.
+ein/e Seminarportal-User*in hat versehentlich zwei parallel stattfindende BFD-Seminare gebucht. Bitte überprüfe die Buchungen.
 
-Viele Grüße, das Team vom BUND';
+Freiwillige*r: {contact.display_name}
 
-      $overlap_html = '<p>{contact.email_greeting_display},</p>
+Seminar 1: {$eventOneTitle}, {$eventOneStart|crmDate:"Datetime"} - {$eventOneEnd|crmDate:"Datetime"}
+Seminar 2: {$eventTwoTitle}, {$eventTwoStart|crmDate:"Datetime"} - {$eventTwoEnd|crmDate:"Datetime"}
 
-      <p>du hast dich gerade für eine Veranstaltung des BUND angemeldet.
-      Diese Veranstaltung überschneidet sich zeitlich mit anderen Veranstaltungen,
-      für die du registriert bist. Bitte logge dich ein unter .... und prüfe deine Veranstaltungsteilnahmen.</p>
+Link zum CiviCRM-Kontakt: {domain.base_url}civicrm/contact/view?reset=1&cid={contact.id}
 
-      <p>Viele Grüße,<br />das Team vom BUND</p>';
+Dies ist eine automatisch generierte Nachricht.';
 
+      $overlap_html = '<p>Hallo Seminarverwaltung,</p>
+
+<p>ein/e Seminarportal-User*in hat versehentlich zwei parallel stattfindende BFD-Seminare gebucht. Bitte überprüfe die Buchungen.</p>
+
+<p>Freiwillige*r: <a href="{domain.base_url}civicrm/contact/view?reset=?cid={contact.id}">{contact.display_name}</a></p>
+
+<p>Seminar 1: {$eventOneTitle}, {$eventOneStart|crmDate:"Datetime"} - {$eventOneEnd|crmDate:"Datetime"}<br />
+Seminar 2: {$eventTwoTitle}, {$eventTwoStart|crmDate:"Datetime"} - {$eventTwoEnd|crmDate:"Datetime"}</p>
+
+<p>Dies ist eine automatisch generierte Nachricht.</p>';
 
       $overlap_tpl = [
         'workflow_name' => 'participant_overlap_bund',
-        'msg_title' => 'Events - Overlap notification for BUND participants',
-        'msg_subject' => 'Deine BUND-Seminartage überlappen sich',
+        'msg_title' => 'Events - Overlap notification for BUND events',
+        'msg_subject' => 'Parallelbuchung BFD-Seminare',
         'msg_text' =>   $overlap_text,
         'msg_html' => $overlap_html
       ];
