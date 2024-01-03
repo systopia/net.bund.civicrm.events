@@ -18,7 +18,7 @@
   <version>1.2-dev</version>
   <develStage/>
   <compatibility>
-    <ver>5.38</ver>
+    <ver>5.55</ver>
   </compatibility>
   <comments/>
   <classloader>
@@ -35,6 +35,7 @@
   <mixins>
     <mixin>menu-xml@1.0.0</mixin>
     <mixin>smarty-v2@1.0.1</mixin>
+    <mixin>scan-classes@1.0.0</mixin>
   </mixins>
   <upgrader>CRM_Events_Upgrader</upgrader>
 </extension>
