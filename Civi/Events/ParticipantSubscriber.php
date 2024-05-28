@@ -19,6 +19,7 @@ declare(strict_types = 1);
 namespace Civi\Events;
 
 use Civi;
+use Civi\Api4\Contact;
 use Civi\Api4\Email;
 use Civi\Api4\Participant;
 use Civi\Api4\Event;
@@ -34,8 +35,18 @@ class ParticipantSubscriber extends AutoSubscriber {
    */
   public static function getSubscribedEvents(): array {
     return [
-      'hook_civicrm_post::Participant' => 'checkParticipationOverlaps',
+      'hook_civicrm_post::Participant' => 'sendBundWorkflowMessages',
     ];
+  }
+
+  /**
+   * @param \Civi\Core\Event\GenericHookEvent $hookEvent
+   *
+   * @return void
+   */
+  public function sendBundWorkflowMessages(GenericHookEvent $hookEvent): void {
+    $this->checkParticipationOverlaps($hookEvent);
+    $this->checkParticipationU18($hookEvent);
   }
 
   /**
@@ -118,6 +129,64 @@ class ParticipantSubscriber extends AutoSubscriber {
                 ]
               );
             }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * @param \Civi\Core\Event\GenericHookEvent $hookEvent
+   *
+   * @return void
+   */
+  public function checkParticipationU18(GenericHookEvent $hookEvent): void {
+    if ($hookEvent->action === 'create') {
+      $age = Contact::get(FALSE)
+        ->addSelect('age_years')
+        ->addWhere('id', '=', $hookEvent->object->contact_id)
+        ->execute()
+        ->single()['age_years'] ?? NULL;
+      $last_event_id = Participant::get(FALSE)
+        ->addSelect('event_id')
+        ->addWhere('contact_id', '=', $hookEvent->object->contact_id)
+        ->addOrderBy('id', 'DESC')
+        ->setLimit(1)
+        ->execute()
+        ->column('event_id')[0] ?? NULL;
+      $event = Event::get(FALSE)
+        ->addSelect('title', 'start_date', 'end_date', 'seminar_zusatzinfo.seminar_nur_f_r_vollj_hrige')
+        ->addWhere('id', '=', $last_event_id)
+        ->execute()
+        ->single();
+      if (isset($age) && $age < 18 && $event['seminar_zusatzinfo.seminar_nur_f_r_vollj_hrige']) {
+        $recipient_ids = Civi::settings()->get('bund_event_recipient_ids');
+        $recipient_ids = explode(',', trim(str_replace(', ', ',', $recipient_ids)));
+        if (is_array($recipient_ids) && !empty($recipient_ids)) {
+          $recipient_bund_emails = Email::get(FALSE)
+            ->addSelect('email')
+            ->addWhere('contact_id', 'IN', $recipient_ids)
+            ->addWhere('is_primary', '=', TRUE)
+            ->execute()
+            ->column('email');
+          $from = Civi::settings()->get('bund_event_from_email_address');
+          $count = count($recipient_ids);
+          for ($i = 0; $i < $count; $i++) {
+            CRM_Core_BAO_MessageTemplate::sendTemplate(
+              [
+                'workflow' => 'participant_u18_bund',
+                'contactId' => $recipient_ids[$i],
+                'tokenContext' => ['contactId' => $hookEvent->object->contact_id],
+                'tplParams' => [
+                  'eventTitle' => $event['title'],
+                  'eventStart' => $event['start_date'],
+                  'eventEnd' => $event['end_date'],
+                ],
+                'from' => CRM_Utils_Mail::formatFromAddress(Civi::settings()
+                  ->get('bund_event_from_email_address')),
+                'toEmail' => $recipient_bund_emails[$i],
+              ]
+            );
           }
         }
       }

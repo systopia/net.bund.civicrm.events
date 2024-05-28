@@ -1,0 +1,11 @@
+Hallo Seminarverwaltung,
+
+ein/e Seminarportal-User*in ist unter 18 Jahre alt und hat versehentlich eine Ü18-Veranstaltung gebucht. Bitte überprüfe die Buchungen.
+
+Freiwillige*r: {contact.display_name}
+
+Seminar: {$eventTitle}, {$eventStart|crmDate:"Datetime"} - {$eventEnd|crmDate:"Datetime"}
+
+Link zum CiviCRM-Kontakt: {domain.base_url}civicrm/contact/view?reset=1&cid={contact.id}
+
+Dies ist eine automatisch generierte Nachricht.
