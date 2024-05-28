@@ -1,0 +1,10 @@
+<p>Hallo Seminarverwaltung,</p>
+
+<p>ein/e Seminarportal-User*in hat versehentlich zwei parallel stattfindende BFD-Seminare gebucht. Bitte überprüfe die Buchungen.</p>
+
+<p>Freiwillige*r: <a href="{domain.base_url}civicrm/contact/view?reset=?cid={contact.id}">{contact.display_name}</a></p>
+
+<p>Seminar 1: {$eventOneTitle}, {$eventOneStart|crmDate:"Datetime"} - {$eventOneEnd|crmDate:"Datetime"}<br />
+  Seminar 2: {$eventTwoTitle}, {$eventTwoStart|crmDate:"Datetime"} - {$eventTwoEnd|crmDate:"Datetime"}</p>
+
+<p>Dies ist eine automatisch generierte Nachricht.</p>

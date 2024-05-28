@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: CRM/Events/Form/Settings.php events.php
 msgid "BUND Event Configuration"
@@ -52,13 +52,27 @@ msgstr "Gespeichert"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
+#: CRM/Events/Form/Settings.php
+msgid "Contacts to receive notifications (comma separated contact ids)"
+msgstr "Empfänger von Benachrichtigungen (Kommaseparierte Kontakt-IDs)"
+
+#: CRM/Events/Form/Settings.php
+msgid "none"
+msgstr ""
+
+#: CRM/Events/Form/Settings.php
+msgid "From email address"
+msgstr "E-Mail Absender"
+
 #: CRM/Events/Profile/EventDaysProfile.php
 msgid "Own Seminar Days"
 msgstr "Meine Seminartage"
 
 #: CRM/Events/Profile/EventDaysProfile.php CRM/Events/Profile/MyDataProfile.php
 msgid "This profile can only be used when the caller is identified."
-msgstr "Dieses Profil kann nur verwendet werden, wenn der Aufrufer identifiziert wurde."
+msgstr ""
+"Dieses Profil kann nur verwendet werden, wenn der Aufrufer identifiziert "
+"wurde."
 
 #: CRM/Events/Profile/MyDataProfile.php
 msgid "Volunteer - My Data"
@@ -125,7 +139,8 @@ msgid "Contact has not enough contingent to register to this event."
 msgstr "Der Teilnehmer hat nicht mehr genügend Tageskontingent."
 
 #: CRM/Events/RemoteEventModifications.php
-msgid "Contact doesn't have the required relationships to register to this event."
+msgid ""
+"Contact doesn't have the required relationships to register to this event."
 msgstr "Der Teilnehmer hat keine aktive Beziehung mehr zur Einsatzstelle."
 
 #: CRM/Events/Upgrader/Base.php
