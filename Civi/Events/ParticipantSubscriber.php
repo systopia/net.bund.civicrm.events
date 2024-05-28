@@ -31,7 +31,7 @@ use CRM_Utils_Mail;
 class ParticipantSubscriber extends AutoSubscriber {
 
   /**
-   * @return callable[]
+   * @inheritDoc
    */
   public static function getSubscribedEvents(): array {
     return [
@@ -101,7 +101,10 @@ class ParticipantSubscriber extends AutoSubscriber {
         if ($overlap) {
           $recipient_ids = Civi::settings()->get('bund_event_recipient_ids');
           $recipient_ids = explode(',', trim(str_replace(', ', ',', $recipient_ids)));
-          if (is_array($recipient_ids) && !empty($recipient_ids)) {
+          $recipient_ids = array_filter($recipient_ids, function($value) {
+            return $value !== '';
+          });
+          if (count($recipient_ids) > 0) {
             $recipient_bund_emails = Email::get(FALSE)
               ->addSelect('email')
               ->addWhere('contact_id', 'IN', $recipient_ids)
@@ -162,7 +165,10 @@ class ParticipantSubscriber extends AutoSubscriber {
       if (isset($age) && $age < 18 && $event['seminar_zusatzinfo.seminar_nur_f_r_vollj_hrige']) {
         $recipient_ids = Civi::settings()->get('bund_event_recipient_ids');
         $recipient_ids = explode(',', trim(str_replace(', ', ',', $recipient_ids)));
-        if (is_array($recipient_ids) && !empty($recipient_ids)) {
+        $recipient_ids = array_filter($recipient_ids, function($value) {
+          return $value !== '';
+        });
+        if (count($recipient_ids) > 0) {
           $recipient_bund_emails = Email::get(FALSE)
             ->addSelect('email')
             ->addWhere('contact_id', 'IN', $recipient_ids)
