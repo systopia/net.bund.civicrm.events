@@ -34,6 +34,11 @@
     <div class="content">{$form.bund_event_from_email_address.html}</div>
     <div class="clear"></div>
   </div>
+  <div class="crm-section">
+    <div class="label">{$form.bund_event_participant_status_types.label}<a onclick='CRM.help("{ts domain="net.bund.civicrm.events"}Check event registrations{/ts}", {literal}{"id":"id-participant-status-types","file":"CRM\/Events\/Form\/Settings"}{/literal}); return false;' href="#" title="{ts domain="net.bund.civicrm.events"}Help{/ts}" class="helpicon"></a></div>
+    <div class="content">{$form.bund_event_participant_status_types.html}</div>
+    <div class="clear"></div>
+  </div>
 {*  <div class="crm-section">*}
 {*    <div class="label">{$form.bund_event_relationship_offset.label}</div>*}
 {*    <div class="content">{$form.bund_event_relationship_offset.html}</div>*}

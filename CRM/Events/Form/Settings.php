@@ -14,7 +14,10 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use Civi\Api4\OptionValue;
+use Civi\Api4\ParticipantStatusType;
 use CRM_Events_ExtensionUtil as E;
 
 /**
@@ -22,11 +25,12 @@ use CRM_Events_ExtensionUtil as E;
  */
 class CRM_Events_Form_Settings extends CRM_Core_Form {
 
-  const SETTINGS = [
+  public const SETTINGS = [
     'bund_event_types',
     'bund_event_relationship_types',
     'bund_event_recipient_ids',
     'bund_event_from_email_address',
+    'bund_event_participant_status_types',
   ];
 
   public function buildQuickForm() {
@@ -51,7 +55,7 @@ class CRM_Events_Form_Settings extends CRM_Core_Form {
     $this->add(
         'text',
         'bund_event_recipient_ids',
-        E::ts("Contacts to receive notifications (comma separated contact ids)"),
+        E::ts('Contacts to receive notifications (comma separated contact ids)'),
         FALSE,
         FALSE,
         ['class' => 'crm-select2', 'multiple' => 'multiple', 'placeholder' => E::ts('none')]
@@ -63,6 +67,14 @@ class CRM_Events_Form_Settings extends CRM_Core_Form {
         $this->getFromEmailAddresses(),
         TRUE,
         ['class' => 'crm-select2', 'placeholder' => E::ts('none')]
+    );
+    $this->add(
+            'select',
+            'bund_event_participant_status_types',
+            E::ts('Check event registrations with the following statuses'),
+            $this->getParticipantStatusType(),
+            TRUE,
+            ['class' => 'crm-select2', 'multiple' => 'multiple', 'placeholder' => E::ts('none')]
     );
 
     $this->addButtons(
@@ -180,6 +192,22 @@ class CRM_Events_Form_Settings extends CRM_Core_Form {
       ->column('label');
 
     return $from_addresses;
+  }
+
+  /**
+   * Get a list of event registration status types
+   *
+   * @return array
+   *   event type ID => name
+   */
+  public static function getParticipantStatusType() {
+    $status_types = ['' => E::ts('all')];
+    $status_types = ParticipantStatusType::get(FALSE)
+      ->addSelect('id', 'label')
+      ->execute()
+      ->indexBy('id')
+      ->column('label');
+    return $status_types;
   }
 
   /**

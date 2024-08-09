@@ -19,8 +19,8 @@ declare(strict_types = 1);
 use CRM_Events_ExtensionUtil as E;
 
 /*
-* Settings metadata file
-*/
+ * Settings metadata file
+ */
 return [
   'bund_event_types' => [
     'name' => 'bund_event_types',
@@ -31,7 +31,7 @@ return [
       'class' => 'crm-select2',
       'multiple' => 1,
     ],
-    'title' => E::ts("Event Types (for Volunteers)"),
+    'title' => E::ts('Event Types (for Volunteers)'),
     'is_domain' => 1,
     'is_contact' => 0,
     'pseudoconstant' => [
@@ -47,7 +47,7 @@ return [
       'class' => 'crm-select2',
       'multiple' => 1,
     ],
-    'title' => E::ts("Relationship Types"),
+    'title' => E::ts('Relationship Types'),
     'is_domain' => 1,
     'is_contact' => 0,
     'pseudoconstant' => [
@@ -58,14 +58,14 @@ return [
     'name' => 'bund_event_recipient_ids',
     'type' => 'String',
     'serialization' => CRM_Core_DAO::SERIALIZE_COMMA,
-    'default' => "2886",
+    'default' => '2886',
     'entity_reference_options' => ['entity' => 'contact'],
     'html_type' => 'select',
     'html_attributes' => [
       'class' => 'crm-select2',
       'multiple' => 1,
     ],
-    'title' => E::ts("Contacts to receive notifications (comma separated contact ids)"),
+    'title' => E::ts('Contacts to receive notifications (comma separated contact ids)'),
     'is_domain' => 1,
     'is_contact' => 0,
   ],
@@ -78,11 +78,26 @@ return [
       'class' => 'crm-select2',
       'multiple' => 1,
     ],
-    'title' => E::ts("From email address"),
+    'title' => E::ts('From email address'),
     'is_domain' => 1,
     'is_contact' => 0,
     'pseudoconstant' => [
       'callback' => 'CRM_Events_Form_Settings::getFromEmailAddresses',
+    ],
+  ],
+  'bund_event_participant_status_types' => [
+    'name' => 'bund_event_participant_status_types',
+    'type' => 'String',
+    'html_type' => 'select',
+    'html_attributes' => [
+      'class' => 'crm-select2',
+      'multiple' => 1,
+    ],
+    'title' => E::ts('Check event registrations with the following statuses'),
+    'is_domain' => 1,
+    'is_contact' => 0,
+    'pseudoconstant' => [
+      'callback' => 'CRM_Events_Form_Settings::getParticipantStatusType',
     ],
   ],
 ];

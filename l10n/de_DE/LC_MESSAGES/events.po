@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: net.bund.civicrm.events\n"
-"POT-Creation-Date: 2021-05-31 19:27+0200\n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "BUND Event Configuration"
 msgstr "BUND Seminar-Einstellungen"
 
-#: CRM/Events/Form/Settings.php
+#: CRM/Events/Form/Settings.php settings/events.setting.php
 msgid "Event Types (for Volunteers)"
 msgstr "Veranstaltungsarten (für Freiwillige)"
 
@@ -28,13 +28,29 @@ msgstr "Veranstaltungsarten (für Freiwillige)"
 msgid "all"
 msgstr "alle"
 
-#: CRM/Events/Form/Settings.php
+#: CRM/Events/Form/Settings.php settings/events.setting.php
 msgid "Relationship Types"
 msgstr "Beziehungsarten"
 
 #: CRM/Events/Form/Settings.php
 msgid "disabled"
 msgstr "inaktiv"
+
+#: CRM/Events/Form/Settings.php settings/events.setting.php
+msgid "Contacts to receive notifications (comma separated contact ids)"
+msgstr "Empfänger von Benachrichtigungen (Kommaseparierte Kontakt-IDs)"
+
+#: CRM/Events/Form/Settings.php
+msgid "none"
+msgstr ""
+
+#: CRM/Events/Form/Settings.php settings/events.setting.php
+msgid "From email address"
+msgstr "E-Mail Absender"
+
+#: CRM/Events/Form/Settings.php settings/events.setting.php
+msgid "Check event registrations with the following statuses"
+msgstr "Statuswerte, die zum Prüfen einer Veranstaltungsanmeldung führen"
 
 #: CRM/Events/Form/Settings.php
 msgid "Save"
@@ -51,18 +67,6 @@ msgstr "Gespeichert"
 #: CRM/Events/Form/Settings.php
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
-
-#: CRM/Events/Form/Settings.php
-msgid "Contacts to receive notifications (comma separated contact ids)"
-msgstr "Empfänger von Benachrichtigungen (Kommaseparierte Kontakt-IDs)"
-
-#: CRM/Events/Form/Settings.php
-msgid "none"
-msgstr ""
-
-#: CRM/Events/Form/Settings.php
-msgid "From email address"
-msgstr "E-Mail Absender"
 
 #: CRM/Events/Profile/EventDaysProfile.php
 msgid "Own Seminar Days"
@@ -143,10 +147,6 @@ msgid ""
 "Contact doesn't have the required relationships to register to this event."
 msgstr "Der Teilnehmer hat keine aktive Beziehung mehr zur Einsatzstelle."
 
-#: CRM/Events/Upgrader/Base.php
-msgid "Upgrade %1 to revision %2"
-msgstr ""
-
 #: api/v3/Contact/UpdateEventStats.php
 msgid "Contact ID"
 msgstr "Kontakt ID"
@@ -162,6 +162,36 @@ msgstr "Liste/Array von Kontakt-IDs"
 #: api/v3/Contact/UpdateEventStats.php
 msgid "This can be a comma-separated list or an array"
 msgstr "Dies kann eine Komma-separierte Liste sein, oder ein Array"
+
+#: templates/CRM/Events/Form/Settings.hlp
+msgid ""
+"If an event registration has one of the specified status values, the "
+"registration is checked for irregularities. If there are any irregularities, "
+"a notification is sent from the e-mail address specified above to the "
+"recipients sepcified above."
+msgstr ""
+"Wenn eine Veranstaltungsanmeldung einen der angegebenen Statuswerte hat, "
+"wird die Anmeldung auf Auffälligkeiten geprüft. Wenn es Auffälligkeiten "
+"gibt, wird eine Benachrichtigung von der oben angegebenen E-Mail-Adresse aus "
+"an die oben angegebenen Empfänger versendet."
+
+#: templates/CRM/Events/Form/Settings.hlp
+msgid ""
+"It is checked for:</p>\n"
+"  <ul><li>overlapping periods with other event registrations</li>\n"
+"      <li> any existing age restrictions</li></ul>"
+msgstr ""
+"Es wird geprüft auf:</p>\n"
+"  <ul><li>zeitliche Überschneidungen mit anderen Veranstaltungen</li>\n"
+"      <li>eventuell vorhandene Altersbeschränkungen</li></ul>"
+
+#: templates/CRM/Events/Form/Settings.tpl
+msgid "Check event registrations"
+msgstr "Prüfe Veranstaltungsanmeldungen"
+
+#: templates/CRM/Events/Form/Settings.tpl
+msgid "Help"
+msgstr ""
 
 #~ msgid "Event Types"
 #~ msgstr "Veranstaltungsarten"
