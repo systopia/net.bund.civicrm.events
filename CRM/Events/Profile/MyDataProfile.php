@@ -27,6 +27,20 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
     // ID/name of the profile
     const PROFILE_NAME = 'bund_events_my_data';
 
+    const PROFILE_FIELDS = [
+            'id',
+            'display_name',
+            'street_address',
+            'supplemental_address_1',
+            'supplemental_address_2',
+            'postal_code',
+            'city',
+            'email',
+            'phone',
+            'freiwillige_zusatzinfos.freiwillige_regionalstelle',
+            'freiwillige_zusatzinfos.freiwillige_regionalstellenbetreuerin',
+    ];
+
     /**
      * Get the profile's ID
      *
@@ -80,35 +94,29 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
     }
 
     /**
-     * Get the list of (internal) fields to be returned.
-     *  This can be overwritten by the profile
-     *
-     * @param $request RemoteContactGetRequest
-     *   the request to execute
+     * Get a mapping of external field names to
+     *  the internal ones,
+     *   e.g. ['my_super_field' => 'custom_23']
      *
      * @return array
+     *   [external field name => internal field name]
      */
-    public function getReturnFields($request)
+    public function getExternalToInternalFieldMapping()
     {
-        // add required fields
-        $required_fields = [
-            'id' => 1,
-            'display_name' => 1,
-            'street_address' => 1,
-            'supplemental_address_1' => 1,
-            'supplemental_address_2' => 1,
-            'postal_code' => 1,
-            'city' => 1,
-            'email' => 1,
-            'phone' => 1,
-            'freiwillige_zusatzinfos.freiwillige_regionalstelle' => 1,
-            'freiwillige_zusatzinfos.freiwillige_regionalstellenbetreuerin' => 1,
-        ];
-        CRM_Events_CustomData::resolveCustomFields($required_fields);
-        return array_keys($required_fields);
+        $field_mapping = $this->getRequestedFieldMapping();
+        $external_mapping = [];
+        foreach ($field_mapping as $internal_name => $full_name) {
+            $external_name = explode('.', $full_name)[1];
+            $external_mapping[$external_name] = $internal_name;
+        }
+        $supervisor_field_name = CRM_Events_CustomData::getCustomFieldKey('freiwillige_zusatzinfos', 'freiwillige_regionalstellenbetreuerin');
+        $external_mapping['supervisor_display_name'] = $supervisor_field_name;
+        $external_mapping['supervisor_email'] = $supervisor_field_name;
+        $external_mapping['supervisor_phone'] = $supervisor_field_name;
+        return $external_mapping;
     }
 
-    /**
+  /**
      * If the profile wants to restrict any fields
      *  This is meant to be overwritten by the profile
      *
@@ -338,5 +346,24 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
             'api.sort'      => 1,
             'is_core_field' => true,
         ]);
+    }
+
+
+    /**
+     * Return a mapping
+     *  of custom_xx to fully qualified custom field name
+     *  of all fields shown by this field
+     */
+    protected function getRequestedFieldMapping()
+    {
+        static $field_mapping = null;
+        if ($field_mapping === null) {
+            $field_mapping = [];
+            foreach (self::PROFILE_FIELDS as $full_field_name) {
+                $field_mapping[$full_field_name] = $full_field_name;
+            }
+            CRM_Events_CustomData::resolveCustomFields($field_mapping);
+        }
+        return $field_mapping;
     }
 }
