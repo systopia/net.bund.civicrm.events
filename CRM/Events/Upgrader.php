@@ -24,14 +24,7 @@ use CRM_Events_ExtensionUtil as E;
  */
 class CRM_Events_Upgrader extends CRM_Extension_Upgrader_Base {
 
-  /**
-   * Installer
-   */
-  public function install() {
-  }
-
-  public function enable() {
-
+  public function enable(): void {
     // Create workflow message for overlapping event registrations
     $overlap_text = file_get_contents(E::path('templates/Events/MessageTemplates/overlapping_events.txt'));
     $overlap_html = file_get_contents(E::path('templates/Events/MessageTemplates/overlapping_events.html'));
@@ -46,11 +39,13 @@ class CRM_Events_Upgrader extends CRM_Extension_Upgrader_Base {
     civicrm_api4('MessageTemplate', 'create',
       [
         'values' => $overlap_tpl + ['is_reserved' => 1, 'is_default' => 0],
+        'checkPermissions' => FALSE,
       ]);
     // Create a default template. This is live. The administrator may edit/customize.
     civicrm_api4('MessageTemplate', 'create',
       [
         'values' => $overlap_tpl + ['is_reserved' => 0, 'is_default' => 1],
+        'checkPermissions' => FALSE,
       ]);
 
     // Create workflow message for event registration by people under 18 years
@@ -68,17 +63,19 @@ class CRM_Events_Upgrader extends CRM_Extension_Upgrader_Base {
     civicrm_api4('MessageTemplate', 'create',
             [
               'values' => $u18_tpl + ['is_reserved' => 1, 'is_default' => 0],
+              'checkPermissions' => FALSE,
             ]);
 
     // Create a default template. This is live. The administrator may edit/customize.
     civicrm_api4('MessageTemplate', 'create',
             [
               'values' => $u18_tpl + ['is_reserved' => 0, 'is_default' => 1],
+              'checkPermissions' => FALSE,
             ]);
   }
 
-  public function disable() {
-    MessageTemplate::delete(TRUE)
+  public function disable(): void {
+    MessageTemplate::delete(FALSE)
       ->addWhere('workflow_name', '=', 'participant_overlap_bund')
       ->execute();
   }
