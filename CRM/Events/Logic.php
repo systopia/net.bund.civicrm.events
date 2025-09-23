@@ -24,28 +24,33 @@ use Civi\RemoteParticipant\Event\ChangingEvent;
  */
 class CRM_Events_Logic {
   // participation obligation
-  public const EVENT_DAYS         = 'seminar_zusatzinfo.seminar_gesamtzahl_tage';
-  public const EVENT_DAYS_GRANTED = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_pflicht';
-  public const EVENT_DAYS_BOOKED  = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht';
+  private const EVENT_DAYS         = 'seminar_zusatzinfo.seminar_gesamtzahl_tage';
+  private const EVENT_DAYS_GRANTED = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_pflicht';
+  private const EVENT_DAYS_BOOKED  = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht';
 
   private const EVENT_DAYS_BOOKED_ONLINE = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht_online';
 
   private const EVENT_DAYS_BOOKED_PRESENCE = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht_praesenz';
 
-  public const EVENT_DAYS_USED    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet';
-  public const EVENT_DAYS_LEFT    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_offen';
+  private const EVENT_DAYS_USED    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet';
+
+  private const EVENT_DAYS_USED_ONLINE = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet_online';
+
+  private const EVENT_DAYS_USED_PRESENCE = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet_praesenz';
+
+  private const EVENT_DAYS_LEFT    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_offen';
 
   // missed (with valid excuse) and skipped (no excuse) days
-  public const TOTAL_DAYS_MISSED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_entschuldigt';
-  public const TOTAL_DAYS_SKIPPED = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_unentschuldigt';
-  public const EVENT_DAYS_MISSED  = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_entschuldigt';
-  public const EVENT_DAYS_SKIPPED = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_unentschuldigt';
-  public const EVENT_DAYS_TOTAL   = 'teilnehmer_zusatzinfo.teilnehmer_gesamttage_anmeldung';
+  private const TOTAL_DAYS_MISSED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_entschuldigt';
+  private const TOTAL_DAYS_SKIPPED = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_unentschuldigt';
+  private const EVENT_DAYS_MISSED  = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_entschuldigt';
+  private const EVENT_DAYS_SKIPPED = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_unentschuldigt';
+  private const EVENT_DAYS_TOTAL   = 'teilnehmer_zusatzinfo.teilnehmer_gesamttage_anmeldung';
 
-  public const RESTRICT_ATTENDED = 'attended';
-  public const RESTRICT_BOOKED   = 'booked';
-  public const PARTICIPANT_STATUS_ATTENDED = 'Attended';
-  public const PARTICIPANT_STATUS_BOOKED   = 'Registered';
+  private const RESTRICT_ATTENDED = 'attended';
+  private const RESTRICT_BOOKED   = 'booked';
+  private const PARTICIPANT_STATUS_ATTENDED = 'Attended';
+  private const PARTICIPANT_STATUS_BOOKED   = 'Registered';
 
   // currently not used, relationship(s) defined via settings, using is_active flag at relationship
   //    const RELATIONSHIP_NAME         = 'ist Freiwillige* bei';
@@ -353,7 +358,7 @@ class CRM_Events_Logic {
     $event_day_count = NULL;
 
     // if relevant event data loaded, just get this one value
-    if (!isset($event['seminar_zusatzinfo.seminar_gesamtzahl_tage'])) {
+    if (!isset($event[self::EVENT_DAYS])) {
       $custom_table = CRM_Events_CustomData::getGroupTable('seminar_zusatzinfo');
       $custom_field = CRM_Events_CustomData::getCustomField('seminar_zusatzinfo', 'seminar_gesamtzahl_tage');
       if ($custom_field && $custom_table) {
@@ -368,7 +373,7 @@ class CRM_Events_Logic {
     }
 
     // if there is something in the custom field
-    $custom_days = self::toInt($event['seminar_zusatzinfo.seminar_gesamtzahl_tage'] ?? 0);
+    $custom_days = self::toInt($event[self::EVENT_DAYS] ?? 0);
     if ($event_day_count === NULL && $custom_days !== 0) {
       $event_day_count = $custom_days;
     }
@@ -418,6 +423,8 @@ class CRM_Events_Logic {
    *   self::EVENT_DAYS_BOOKED_ONLINE: int,
    *   self::EVENT_DAYS_BOOKED_PRESENCE: int,
    *   self::EVENT_DAYS_USED: int,
+   *   self::EVENT_DAYS_USED_ONLINE: int,
+   *   self::EVENT_DAYS_USED_PRESENCE: int,
    *   self::EVENT_DAYS_LEFT: int,
    *   self::TOTAL_DAYS_MISSED: int,
    *   self::TOTAL_DAYS_SKIPPED: int,
@@ -437,6 +444,8 @@ class CRM_Events_Logic {
       self::EVENT_DAYS_BOOKED_ONLINE,
       self::EVENT_DAYS_BOOKED_PRESENCE,
       self::EVENT_DAYS_USED,
+      self::EVENT_DAYS_USED_ONLINE,
+      self::EVENT_DAYS_USED_PRESENCE,
       self::EVENT_DAYS_LEFT,
       self::TOTAL_DAYS_MISSED,
       self::TOTAL_DAYS_SKIPPED,
@@ -588,6 +597,16 @@ class CRM_Events_Logic {
     $days_used = self::getContactEventContingentUsed($contact_id, self::RESTRICT_ATTENDED);
     if ($current_values[self::EVENT_DAYS_USED] !== $days_used) {
       $update[self::EVENT_DAYS_USED] = $days_used;
+    }
+
+    $daysUsedOnline = self::getContactEventContingentUsed($contact_id, 'past', 'online');
+    if ($current_values[self::EVENT_DAYS_USED_ONLINE] !== $daysUsedOnline) {
+      $update[self::EVENT_DAYS_USED_ONLINE] = $daysUsedOnline;
+    }
+
+    $daysUsedPresence = self::getContactEventContingentUsed($contact_id, 'past', 'präsenz');
+    if ($current_values[self::EVENT_DAYS_USED_PRESENCE] !== $daysUsedPresence) {
+      $update[self::EVENT_DAYS_USED_PRESENCE] = $daysUsedPresence;
     }
 
     // check days booked
