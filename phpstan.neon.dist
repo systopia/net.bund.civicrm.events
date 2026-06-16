@@ -35,7 +35,10 @@ parameters:
 		# https://youtrack.jetbrains.com/issue/WI-63891/PHPStan-ignoreErrors-configuration-isnt-working-with-inspections
 
 		# Example
-		#- # Accessing results of API requests 
+		#- # Accessing results of API requests
 			#message: "#^Offset '[^']+' does not exist on array[^\\|]+\\|null.$#"
 			#path: */tests/phpunit/**/*Test.php
+		-
+			message: '#^Dead catch \- CRM_Core_Exception is never thrown in the try block\.$#'
+			path: */CRM/Events/Logic.php
 	tmpDir: .phpstan
