@@ -1,0 +1,851 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 2
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^BooleanAnd\\: Condition between bool and false are always false\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^BooleanAndNode\\: Condition between bool and false are always false\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Call to deprecated method value\\(\\) of class CRM_Utils_Array\\.$#"
+			count: 7
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Call to function in_array\\(\\) requires parameter \\#3 to be set\\.$#"
+			count: 2
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Cannot access offset '_entities' on mixed\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Cannot access offset 'count' on array\\|int\\.$#"
+			count: 2
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Cannot access offset 'entity' on mixed\\.$#"
+			count: 4
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Cannot access offset 'extends' on mixed\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Cannot access offset 'extends_entity…' on mixed\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Cannot access offset 'values' on array\\|int\\.$#"
+			count: 4
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Cannot cast array\\|int to string\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 21
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Do not throw the \\\\Exception base class\\. Instead, extend the \\\\Exception base class\\. More info\\: http\\://bit\\.ly/subtypeexception$#"
+			count: 3
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$groups_to_load might not exist\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:__construct\\(\\) has parameter \\$ts_domain with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:cacheCustomFields\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:cacheCustomFields\\(\\) has parameter \\$custom_field_ids with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:cacheCustomGroupSpecs\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:cacheCustomGroupSpecs\\(\\) has parameter \\$custom_group_ids with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:cacheCustomGroups\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:cacheCustomGroups\\(\\) has parameter \\$custom_group_names with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:createEntity\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:createEntity\\(\\) has parameter \\$data with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:createEntity\\(\\) has parameter \\$entity_type with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:createSQLJoin\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:createSQLJoin\\(\\) has parameter \\$group_name with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:createSQLJoin\\(\\) has parameter \\$join_entity_id with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:createSQLJoin\\(\\) has parameter \\$table_alias with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:flushCashes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:generatePreHookCustomDataRecord\\(\\) has parameter \\$field_id with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:generatePreHookCustomDataRecord\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:generatePreHookCustomDataRecord\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:generatePreHookCustomDataRecord\\(\\) should return array but returns null\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getCustomField\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getCustomField\\(\\) has parameter \\$custom_field_name with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getCustomField\\(\\) has parameter \\$custom_group_name with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getCustomFieldKey\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getCustomFieldKey\\(\\) has parameter \\$custom_field_name with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getCustomFieldKey\\(\\) has parameter \\$custom_group_name with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getCustomFieldsForGroups\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getCustomFieldsForGroups\\(\\) has parameter \\$custom_group_names with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getEntityID\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getEntityID\\(\\) has parameter \\$entity_type with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getEntityID\\(\\) has parameter \\$selector with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getFieldIdentifier\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getFieldIdentifier\\(\\) has parameter \\$field_id with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getFieldIdentifier\\(\\) has parameter \\$separator with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getFieldSpecs\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getFieldSpecs\\(\\) should return array but returns null\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroup2Name\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroup2TableName\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroupID\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroupID\\(\\) has parameter \\$group_name with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroupName\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroupName\\(\\) has parameter \\$custom_group_id with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroupSpecs\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroupSpecs\\(\\) should return array but returns null\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroupTable\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getGroupTable\\(\\) has parameter \\$group_name with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getOptionValue\\(\\) has Exception in PHPDoc @throws tag but it's not thrown\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getOptionValue\\(\\) has parameter \\$group_name with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getOptionValue\\(\\) has parameter \\$label with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getOptionValue\\(\\) should return string but returns null\\.$#"
+			count: 2
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getPreHookCustomDataValue\\(\\) has parameter \\$field_id with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:getPreHookCustomDataValue\\(\\) has parameter \\$params with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:identifyEntity\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:identifyEntity\\(\\) has parameter \\$data with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:identifyEntity\\(\\) has parameter \\$entity_type with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:labelCustomFields\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:labelCustomFields\\(\\) has parameter \\$data with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:labelCustomFields\\(\\) has parameter \\$depth with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:labelCustomFields\\(\\) has parameter \\$separator with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:loadGroups\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:log\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:log\\(\\) has parameter \\$level with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:log\\(\\) has parameter \\$message with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:resolveCustomFields\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:resolveCustomFields\\(\\) has parameter \\$customgroups with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:resolveCustomFields\\(\\) has parameter \\$data with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:setPreHookCustomDataValue\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:setPreHookCustomDataValue\\(\\) has parameter \\$field_id with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:setPreHookCustomDataValue\\(\\) has parameter \\$params with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:setPreHookCustomDataValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:syncCustomGroup\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:syncCustomGroup\\(\\) has parameter \\$source_file with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:syncEntities\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:syncEntities\\(\\) has parameter \\$source_file with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:syncOptionGroup\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:syncOptionGroup\\(\\) has parameter \\$source_file with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:translateStrings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:translateStrings\\(\\) has parameter \\$data with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:unREST\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:unREST\\(\\) has parameter \\$group_names with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:unREST\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:updateEntity\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:updateEntity\\(\\) has parameter \\$current_data with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:updateEntity\\(\\) has parameter \\$entity_type with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:updateEntity\\(\\) has parameter \\$force with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:updateEntity\\(\\) has parameter \\$requested_data with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Method CRM_Events_CustomData\\:\\:updateEntity\\(\\) has parameter \\$required_fields with no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, float\\|int\\|string given\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, int\\|false given\\.$#"
+			count: 4
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, mixed given\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$groupName$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 3
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function substr expects string, int\\|string given\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, int\\|string given\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Part \\$data\\['entity'\\] \\(mixed\\) of encapsed string cannot be cast to string\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Property CRM_Events_CustomData\\:\\:\\$custom_field_cache has no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Property CRM_Events_CustomData\\:\\:\\$custom_group2name has no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Property CRM_Events_CustomData\\:\\:\\$custom_group2table_name has no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Property CRM_Events_CustomData\\:\\:\\$custom_group_cache has no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Property CRM_Events_CustomData\\:\\:\\$custom_group_spec_cache has no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Property CRM_Events_CustomData\\:\\:\\$ts_domain has no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Property CRM_Events_CustomData\\:\\:\\$version has no type specified\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Variable \\$unpacked_value in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: CRM/Events/CustomData.php
+
+		-
+			message: "#^Call to deprecated method value\\(\\) of class CRM_Utils_Array\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Cannot access offset 'values' on array\\|int\\.$#"
+			count: 6
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Dynamic call to static method CRM_Events_Form_Settings\\:\\:getEventRelationshipTypes\\(\\)\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Dynamic call to static method CRM_Events_Form_Settings\\:\\:getEventTypes\\(\\)\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Dynamic call to static method CRM_Events_Form_Settings\\:\\:getFromEmailAddresses\\(\\)\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Dynamic call to static method CRM_Events_Form_Settings\\:\\:getParticipantStatusType\\(\\)\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Method CRM_Events_Form_Settings\\:\\:buildQuickForm\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Method CRM_Events_Form_Settings\\:\\:getEligibleContingentFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Method CRM_Events_Form_Settings\\:\\:getEventRelationshipTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Method CRM_Events_Form_Settings\\:\\:getEventTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Method CRM_Events_Form_Settings\\:\\:getFromEmailAddresses\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Method CRM_Events_Form_Settings\\:\\:getParticipantStatusType\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Method CRM_Events_Form_Settings\\:\\:postProcess\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Parameter \\#4 \\$attributes of method CRM_Core_Form\\:\\:add\\(\\) expects array\\|null, false given\\.$#"
+			count: 1
+			path: CRM/Events/Form/Settings.php
+
+		-
+			message: "#^Call to deprecated method value\\(\\) of class CRM_Utils_Array\\.$#"
+			count: 1
+			path: CRM/Events/Profile/EventDaysProfile.php
+
+		-
+			message: "#^Method CRM_Events_Profile_EventDaysProfile\\:\\:applyRestrictions\\(\\) has parameter \\$request_data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Profile/EventDaysProfile.php
+
+		-
+			message: "#^Method CRM_Events_Profile_EventDaysProfile\\:\\:filterResult\\(\\) has parameter \\$reply_records with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Profile/EventDaysProfile.php
+
+		-
+			message: "#^Method CRM_Events_Profile_EventDaysProfile\\:\\:getExternalToInternalFieldMapping\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Profile/EventDaysProfile.php
+
+		-
+			message: "#^Method CRM_Events_Profile_EventDaysProfile\\:\\:getRequestedFieldMapping\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/Profile/EventDaysProfile.php
+
+		-
+			message: "#^Method CRM_Events_Profile_EventDaysProfile\\:\\:registerProfiles\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/Profile/EventDaysProfile.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int given\\.$#"
+			count: 1
+			path: CRM/Events/Profile/EventDaysProfile.php
+
+		-
+			message: "#^Return type \\(array\\) of method CRM_Events_Profile_EventDaysProfile\\:\\:getExternalToInternalFieldMapping\\(\\) should be covariant with return type \\(array\\<string, string\\>\\) of method CRM_Remotetools_RemoteContactProfile\\:\\:getExternalToInternalFieldMapping\\(\\)$#"
+			count: 1
+			path: CRM/Events/Profile/EventDaysProfile.php
+
+		-
+			message: "#^Call to deprecated method value\\(\\) of class CRM_Utils_Array\\.$#"
+			count: 14
+			path: CRM/Events/Profile/MyDataProfile.php
+
+		-
+			message: "#^Caught class CiviCRM_API3_Exception not found\\.$#"
+			count: 1
+			path: CRM/Events/Profile/MyDataProfile.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: CRM/Events/Profile/MyDataProfile.php
+
+		-
+			message: "#^Method CRM_Events_Profile_MyDataProfile\\:\\:applyRestrictions\\(\\) has parameter \\$request_data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Profile/MyDataProfile.php
+
+		-
+			message: "#^Method CRM_Events_Profile_MyDataProfile\\:\\:filterResult\\(\\) has parameter \\$reply_records with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Profile/MyDataProfile.php
+
+		-
+			message: "#^Method CRM_Events_Profile_MyDataProfile\\:\\:getReturnFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: CRM/Events/Profile/MyDataProfile.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int given\\.$#"
+			count: 1
+			path: CRM/Events/Profile/MyDataProfile.php
+
+		-
+			message: "#^Parameter \\#2 \\$list of static method CRM_Utils_Array\\:\\:value\\(\\) expects array\\|ArrayAccess, array\\|int given\\.$#"
+			count: 3
+			path: CRM/Events/Profile/MyDataProfile.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: CRM/Events/RemoteEventModifications.php
+
+		-
+			message: "#^Method CRM_Events_RemoteEventModifications\\:\\:overrideRegistrationRestrictions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/RemoteEventModifications.php
+
+		-
+			message: "#^Method CRM_Events_RemoteEventModifications\\:\\:validateRegistrationRestrictions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: CRM/Events/RemoteEventModifications.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, int\\|null given\\.$#"
+			count: 1
+			path: CRM/Events/RemoteEventModifications.php
+
+		-
+			message: "#^Parameter \\#1 \\$contact_id of static method CRM_Events_Logic\\:\\:contactHasRelationship\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: CRM/Events/RemoteEventModifications.php
+
+		-
+			message: "#^Parameter \\#1 \\$contact_id of static method CRM_Events_Logic\\:\\:contactStillHasContingentLeftForEvent\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: CRM/Events/RemoteEventModifications.php
+
+		-
+			message: "#^Call to function in_array\\(\\) requires parameter \\#3 to be set\\.$#"
+			count: 1
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Cannot access offset 'end_date' on mixed\\.$#"
+			count: 3
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Cannot access offset 'id' on mixed\\.$#"
+			count: 4
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Cannot access offset 'start_date' on mixed\\.$#"
+			count: 4
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Cannot access offset 'title' on mixed\\.$#"
+			count: 2
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Offset 0 does not exist on array\\{\\}\\|array\\{mixed, mixed\\}\\.$#"
+			count: 3
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Offset 1 does not exist on array\\{\\}\\|array\\{mixed, mixed\\}\\.$#"
+			count: 3
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Parameter \\#1 \\$datetime of class DateTime constructor expects string, mixed given\\.$#"
+			count: 1
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Parameter \\#1 \\$from of static method CRM_Utils_Mail\\:\\:formatFromAddress\\(\\) expects array\\|string, mixed given\\.$#"
+			count: 2
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, mixed given\\.$#"
+			count: 1
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Parameter \\#3 \\$subject of function str_replace expects array\\|string, mixed given\\.$#"
+			count: 2
+			path: Civi/Events/ParticipantSubscriber.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: api/v3/Contact/UpdateEventStats.php
+
+		-
+			message: "#^Function _civicrm_api3_contact_update_event_stats_spec\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: api/v3/Contact/UpdateEventStats.php
+
+		-
+			message: "#^Function _civicrm_api3_contact_update_event_stats_spec\\(\\) has parameter \\$spec with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: api/v3/Contact/UpdateEventStats.php
+
+		-
+			message: "#^Function civicrm_api3_contact_update_event_stats\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: api/v3/Contact/UpdateEventStats.php
+
+		-
+			message: "#^Function civicrm_api3_contact_update_event_stats\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: api/v3/Contact/UpdateEventStats.php

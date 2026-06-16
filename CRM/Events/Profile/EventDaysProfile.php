@@ -44,7 +44,7 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      * @return string
      *   profile ID
      */
-    public function getProfileID()
+    public function getProfileID(): string
     {
         return self::PROFILE_NAME;
     }
@@ -55,7 +55,7 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      * @return string
      *   profile ID
      */
-    public function getProfileName()
+    public function getProfileName(): string
     {
         return E::ts("Own Seminar Days");
     }
@@ -69,7 +69,7 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      * @return boolean
      *   does this profile only return the data of the caller?
      */
-    public function isOwnDataProfile($request)
+    public function isOwnDataProfile($request): bool
     {
         return true;
     }
@@ -81,7 +81,7 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      *   the request to execute
      *
      */
-    public function initProfile($request)
+    public function initProfile($request): void
     {
         // implement this to format the results before delivery
         $contact_id = $request->getCallerContactID();
@@ -98,7 +98,7 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      * @return array
      *   [external field name => internal field name]
      */
-    public function getExternalToInternalFieldMapping()
+    public function getExternalToInternalFieldMapping(): array
     {
         $field_mapping = $this->getRequestedFieldMapping();
         $external_mapping = [];
@@ -120,7 +120,7 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      *    the request parameters, to be edited in place
      *
      */
-    public function applyRestrictions($request, &$request_data)
+    public function applyRestrictions($request, &$request_data): void
     {
         parent::applyRestrictions($request, $request_data);
         $request_data['contact_type'] = 'Individual';
@@ -139,7 +139,7 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      * @param array $reply_records
      *    the current reply records to edit in-place
      */
-    public function filterResult($request, &$reply_records)
+    public function filterResult($request, &$reply_records): void
     {
         parent::filterResult($request, $reply_records);
 
@@ -159,7 +159,7 @@ class CRM_Events_Profile_EventDaysProfile extends CRM_Remotetools_RemoteContactP
      *
      * @param $fields_collection GetFieldsEvent
      */
-    public function addFields($fields_collection)
+    public function addFields($fields_collection): void
     {
         $fields = $this->getRequestedFieldMapping();
         foreach ($fields as $civicrm_name => $field_name) {

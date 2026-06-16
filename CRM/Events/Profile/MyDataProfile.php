@@ -33,7 +33,7 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
      * @return string
      *   profile ID
      */
-    public function getProfileID()
+    public function getProfileID(): string
     {
         return self::PROFILE_NAME;
     }
@@ -44,7 +44,7 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
      * @return string
      *   profile ID
      */
-    public function getProfileName()
+    public function getProfileName(): string
     {
         return E::ts("Volunteer - My Data");
     }
@@ -58,7 +58,7 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
      * @return boolean
      *   does this profile only return the data of the caller?
      */
-    public function isOwnDataProfile($request)
+    public function isOwnDataProfile($request): bool
     {
         return true;
     }
@@ -70,7 +70,7 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
      *   the request to execute
      *
      */
-    public function initProfile($request)
+    public function initProfile($request): void
     {
         // implement this to format the results before delivery
         $contact_id = $request->getCallerContactID();
@@ -88,7 +88,7 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
      *
      * @return array
      */
-    public function getReturnFields($request)
+    public function getReturnFields($request): array
     {
         // add required fields
         $required_fields = [
@@ -119,7 +119,7 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
      *    the request parameters, to be edited in place
      *
      */
-    public function applyRestrictions($request, &$request_data)
+    public function applyRestrictions($request, &$request_data): void
     {
         parent::applyRestrictions($request, $request_data);
         $request_data['contact_type'] = 'Individual';
@@ -138,7 +138,7 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
      * @param array $reply_records
      *    the current reply records to edit in-place
      */
-    public function filterResult($request, &$reply_records)
+    public function filterResult($request, &$reply_records): void
     {
         parent::filterResult($request, $reply_records);
 
@@ -207,7 +207,7 @@ class CRM_Events_Profile_MyDataProfile extends CRM_Remotetools_RemoteContactProf
      *
      * @param $fields_collection GetFieldsEvent
      */
-    public function addFields($fields_collection)
+    public function addFields($fields_collection): void
     {
         // add core fields
         $fields_collection->setFieldSpec('display_name', [
