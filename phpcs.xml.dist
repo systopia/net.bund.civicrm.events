@@ -44,7 +44,10 @@
     <rule ref="Generic.NamingConventions.AbstractClassNamePrefix"/>
     <rule ref="Generic.NamingConventions.InterfaceNameSuffix"/>
     <rule ref="Generic.NamingConventions.TraitNameSuffix"/>
-    <rule ref="Generic.PHP.RequireStrictTypes"/>
+    <!-- strict_types is not enforced: this legacy extension predates it and has no
+         test coverage to verify that adding declare(strict_types=1) keeps the runtime
+         behaviour unchanged. Re-enable once the extension has tests. -->
+    <!-- <rule ref="Generic.PHP.RequireStrictTypes"/> -->
     <rule ref="PSR1.Files.SideEffects"/>
     <rule ref="PSR12.Classes.ClassInstantiation"/>
     <rule ref="PSR12.Properties.ConstantVisibility"/>
