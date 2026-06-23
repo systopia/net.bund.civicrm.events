@@ -1,3 +1,6 @@
+includes:
+	- phpstan-baseline.neon
+
 parameters:
 	paths:
 		- api
@@ -35,7 +38,7 @@ parameters:
 		# https://youtrack.jetbrains.com/issue/WI-63891/PHPStan-ignoreErrors-configuration-isnt-working-with-inspections
 
 		# Example
-		#- # Accessing results of API requests 
+		#- # Accessing results of API requests
 			#message: "#^Offset '[^']+' does not exist on array[^\\|]+\\|null.$#"
 			#path: */tests/phpunit/**/*Test.php
 	tmpDir: .phpstan
