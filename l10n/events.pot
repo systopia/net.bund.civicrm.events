@@ -94,7 +94,7 @@ msgstr ""
 msgid "Phone"
 msgstr ""
 
-#: CRM/Events/Profile/MyDataProfile.php
+#: CRM/Events/Profile/MyDataProfile.php managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
 msgid "Regionalstelle"
 msgstr ""
 
@@ -140,6 +140,574 @@ msgstr ""
 
 #: api/v3/Contact/UpdateEventStats.php
 msgid "This can be a comma-separated list or an array"
+msgstr ""
+
+#: managed/01_ContactType_Ansprechpartner_Einsatzstelle.mgd.php
+msgid "Ansprechpartner Einsatzstelle"
+msgstr ""
+
+#: managed/01_ContactType_Dozent_in.mgd.php
+msgid "Dozent*in"
+msgstr ""
+
+#: managed/01_ContactType_Dozent_in.mgd.php
+msgid "Seminartrainer*in"
+msgstr ""
+
+#: managed/01_ContactType_Einsatzstelle.mgd.php
+msgid "Einsatzstelle"
+msgstr ""
+
+#: managed/01_ContactType_Freiwillige.mgd.php
+msgid "Freiwillige"
+msgstr ""
+
+#: managed/01_ContactType_RegionalstellenbetreuerIn.mgd.php
+msgid "RegionalstellenbetreuerIn"
+msgstr ""
+
+#: managed/01_RelationshipType_freiwillige.mgd.php
+msgid "ist Freiwillige* bei"
+msgstr ""
+
+#: managed/01_RelationshipType_freiwillige.mgd.php
+msgid "hat Freiwillige*"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Zusätzliche Informationen zum Einsatz von Freiwilligen"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Status der Einsätze"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Abgebrochen"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Abgesagt"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Ausgeschieden"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Beendet"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Laufend"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Geplant"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Status"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Wochenstunden"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Regelstunden"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Stundenzahl"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Voll- oder Teilzeit"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Teilzeit"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Vollzeit"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Taschengeld"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Verpflegung"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "sonstige Leistungen"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "SV-Betrag"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Dienstbescheinigung erstellt"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "BFD-Vereinbarung bestätigt"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Verlängergung bestätigt"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Änderung bestätigt"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Kündigung bestätigt"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Personalbogen vorhanden"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Begrüßungsschreiben raus"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Antrag auf Förderbedarf"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Warten auf Attest"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Warten auf externe Seminarbescheinigung"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "FW-Zeit-Seminar"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Seminarplanung abgeschlossen"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "offene Rückmeldung"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "offener Konflikt"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Verkürzt"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Verlängert"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Ankündigung Verlängerung/Verkürzung"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Dienstbescheinigung da"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Zeugnisbestätigung da"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Abschiedsmail erhalten"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Probemitgliedschaft abgeschlossen"
+msgstr ""
+
+#: managed/CustomGroup_einsatz_zusatzinfos.mgd.php
+msgid "Dienstzeitbescheinigung"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "Zusätzliche Informationen zur Einsatzstelle"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "EST-Nummer"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "RTR-Name"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "RTR-Nummer"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "AST-Nummer TG"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "AST-Nummer BP"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "Debitorennummer"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Regionalstellen"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Süd"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Ost"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "West"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "TGD"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "RS-betreuer*in"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "Einsatzstelle Extern / Verband"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "eigene Einsatzstellen und externe Einsatzstellen"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "Extern"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "Verband"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "Einsatzstelle seit"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "Plätze insgesamt"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "freie Plätze"
+msgstr ""
+
+#: managed/CustomGroup_einsatzstelle_zusatzinfo.mgd.php
+msgid "Eingang RV"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Zusätzliche Informationen für Freiwillige"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Freiwilligenkennung"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "RS-BetreuerIn"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Nationalität"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Arbeitszeit"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Arbeitszeit von Freiwilligen"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Sprachkenntnisse"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Sprachkenntnisse von Freiwilligen"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Chinesisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Porutgiesisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Türkisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Polnisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Russisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Arabisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Französisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Italienisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Spanisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Englisch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Deutsch"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Bevorzugte Sprache"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Deutschkenntnisse"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "keine"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "gut"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "gering"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "sehr gut"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "zu leistende Seminar-Tage"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Politische Bildungstage"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "gebuchte Seminar-Tage"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "gebuchte Online Seminar-Tage"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "gebuchte Präsenz Seminar-Tage"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "verbrauchte Seminar-Tage"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Hier werden sowohl teilgenommene Tage, solche zukünftiger Anmeldungen mit positivem Status als auch entschuldigte Fehltage berücksichtigt."
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "verbrauchte Online Seminar-Tage"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "verbrauchte Präsenz Seminar-Tage"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "offene Seminar-Tage"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Gesamtfehltage entschuldigt"
+msgstr ""
+
+#: managed/CustomGroup_freiwillige_zusatzinfos.mgd.php
+msgid "Gesamtfehltage unentschuldigt"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Zusätzliche Informationen für Seminare"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Interne Anmerkungen"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Seminarzeiten"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Hinweise zum Seminar"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Social-Scout Event ID"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Durchführungsart von Seminaren"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Präsenz"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Online"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Durchführungsart"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Seminarthema"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Thema des Seminars"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Umweltschutz"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Öffentlichkeitsarbeit"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Umweltbildung"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Vielfalt"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Sonstiges"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Thema"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Nord"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Region"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Gesamtzahl Seminartage"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Maximalbelegung"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Seminar nur für Volljährige"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Gesamtkosten"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Honorarkosten"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Raumkosten"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Verpflegungskosten"
+msgstr ""
+
+#: managed/CustomGroup_seminar_zusatzinfo.mgd.php
+msgid "Sonstige Kosten"
+msgstr ""
+
+#: managed/CustomGroup_teilnehmer_zusatzinfo.mgd.php
+msgid "Zusätzliche Informationen für Seminar-Teilnehmer"
+msgstr ""
+
+#: managed/CustomGroup_teilnehmer_zusatzinfo.mgd.php
+msgid "Grund der Abwesenheit"
+msgstr ""
+
+#: managed/CustomGroup_teilnehmer_zusatzinfo.mgd.php
+msgid "Gesamttage Anmeldung"
+msgstr ""
+
+#: managed/CustomGroup_teilnehmer_zusatzinfo.mgd.php
+msgid "Fehltage entschuldigt"
+msgstr ""
+
+#: managed/CustomGroup_teilnehmer_zusatzinfo.mgd.php
+msgid "Bei Eintragungen im Feld \"entschuldigt\" sind die Zahl der eingetragenen Seminartage nicht mehr verfügbar für andere Seminare"
+msgstr ""
+
+#: managed/CustomGroup_teilnehmer_zusatzinfo.mgd.php
+msgid "Fehltage unentschuldigt"
+msgstr ""
+
+#: managed/CustomGroup_teilnehmer_zusatzinfo.mgd.php
+msgid "Bei Eintragungen im Feld \"unentschuldigt\" werden die Zahl der eingetragenen Seminartage wieder verfügbar für andere Seminare"
+msgstr ""
+
+#: managed/CustomGroup_teilnehmer_zusatzinfo.mgd.php
+msgid "TN-Spesen"
 msgstr ""
 
 #: templates/CRM/Events/Form/Settings.hlp
