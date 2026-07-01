@@ -39,6 +39,7 @@ class CRM_Events_Logic {
   public const RESTRICT_ATTENDED = 'attended';
   public const RESTRICT_BOOKED   = 'booked';
   public const PARTICIPANT_STATUS_ATTENDED = 'Attended';
+  public const PARTICIPANT_STATUS_EXCUSED  = 'entschuldigt';
   public const PARTICIPANT_STATUS_BOOKED   = 'Registered';
 
   // currently not used, relationship(s) defined via settings, using is_active flag at relationship
@@ -93,6 +94,30 @@ class CRM_Events_Logic {
   /**
    * @return list<int>
    */
+  public static function getExcusedParticipantStatusIdList(): array {
+    static $excused_status_ids = NULL;
+    if ($excused_status_ids === NULL) {
+      $excused_status_ids = self::getParticipantStatusIdsByName(self::PARTICIPANT_STATUS_EXCUSED);
+      if ($excused_status_ids === []) {
+        Civi::log()->warning("BUND Events: cannot find the 'entschuldigt' participant status type.");
+      }
+    }
+    return $excused_status_ids;
+  }
+
+  /**
+   * @return list<int>
+   */
+  public static function getUsedParticipantStatusIdList(): array {
+    return array_values(array_unique(array_merge(
+      self::getAttendedParticipantStatusIdList(),
+      self::getExcusedParticipantStatusIdList()
+    )));
+  }
+
+  /**
+   * @return list<int>
+   */
   public static function getBookedParticipantStatusIdList(): array {
     static $booked_status_ids = NULL;
     if ($booked_status_ids === NULL) {
@@ -101,7 +126,7 @@ class CRM_Events_Logic {
       if ($status_ids === []) {
         $status_ids = self::getParticipantStatusIdsByName(self::PARTICIPANT_STATUS_BOOKED);
       }
-      $booked_status_ids = array_values(array_diff($status_ids, self::getAttendedParticipantStatusIdList()));
+      $booked_status_ids = array_values(array_diff($status_ids, self::getUsedParticipantStatusIdList()));
     }
     return $booked_status_ids;
   }
@@ -489,7 +514,7 @@ class CRM_Events_Logic {
 
       switch ($restrict) {
         case self::RESTRICT_ATTENDED:
-          $status_ids = self::getAttendedParticipantStatusIdList();
+          $status_ids = self::getUsedParticipantStatusIdList();
           break;
 
         case self::RESTRICT_BOOKED:
@@ -498,7 +523,7 @@ class CRM_Events_Logic {
 
         default:
           $status_ids = array_merge(
-          self::getAttendedParticipantStatusIdList(),
+          self::getUsedParticipantStatusIdList(),
           self::getBookedParticipantStatusIdList()
           );
           break;
