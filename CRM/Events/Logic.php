@@ -50,6 +50,7 @@ class CRM_Events_Logic {
   private const RESTRICT_ATTENDED = 'attended';
   private const RESTRICT_BOOKED   = 'booked';
   private const PARTICIPANT_STATUS_ATTENDED = 'Attended';
+  private const PARTICIPANT_STATUS_EXCUSED  = 'entschuldigt';
   private const PARTICIPANT_STATUS_BOOKED   = 'Registered';
 
   // currently not used, relationship(s) defined via settings, using is_active flag at relationship
@@ -106,6 +107,30 @@ class CRM_Events_Logic {
   /**
    * @return list<int>
    */
+  public static function getExcusedParticipantStatusIdList(): array {
+    static $excused_status_ids = NULL;
+    if ($excused_status_ids === NULL) {
+      $excused_status_ids = self::getParticipantStatusIdsByName(self::PARTICIPANT_STATUS_EXCUSED);
+      if ($excused_status_ids === []) {
+        Civi::log()->warning("BUND Events: cannot find the 'entschuldigt' participant status type.");
+      }
+    }
+    return $excused_status_ids;
+  }
+
+  /**
+   * @return list<int>
+   */
+  public static function getUsedParticipantStatusIdList(): array {
+    return array_values(array_unique(array_merge(
+      self::getAttendedParticipantStatusIdList(),
+      self::getExcusedParticipantStatusIdList()
+    )));
+  }
+
+  /**
+   * @return list<int>
+   */
   public static function getBookedParticipantStatusIdList(): array {
     static $booked_status_ids = NULL;
     if ($booked_status_ids === NULL) {
@@ -114,7 +139,7 @@ class CRM_Events_Logic {
       if ($status_ids === []) {
         $status_ids = self::getParticipantStatusIdsByName(self::PARTICIPANT_STATUS_BOOKED);
       }
-      $booked_status_ids = array_values(array_diff($status_ids, self::getAttendedParticipantStatusIdList()));
+      $booked_status_ids = array_values(array_diff($status_ids, self::getUsedParticipantStatusIdList()));
     }
     return $booked_status_ids;
   }
@@ -496,11 +521,28 @@ class CRM_Events_Logic {
       return 0;
     }
 
+    switch ($restrict) {
+      case self::RESTRICT_ATTENDED:
+        $statusIds = self::getUsedParticipantStatusIdList();
+        break;
+
+      case self::RESTRICT_BOOKED:
+        $statusIds = self::getBookedParticipantStatusIdList();
+        break;
+
+      default:
+        $statusIds = array_values(array_unique(array_merge(
+          self::getUsedParticipantStatusIdList(),
+          self::getBookedParticipantStatusIdList()
+        )));
+        break;
+    }
+
     $numberOfDays = 0;
     $participantGet = Participant::get(FALSE)
       ->setSelect(['event_id'])
       ->addWhere('contact_id', '=', $contactId)
-      ->addWhere('status_id', 'NOT IN', explode(',', self::getExcludedParticipantStatusIdList()));
+      ->addWhere('status_id', 'IN', [] === $statusIds ? [-1] : $statusIds);
 
     // check if we restrict to certain event types
     $eventTypes = Civi::settings()->get('bund_event_types');
@@ -508,19 +550,11 @@ class CRM_Events_Logic {
       $participantGet->addWhere('event_id.event_type_id', 'IN', $eventTypes);
     }
 
-    // selecting for past events or upcoming ones?
-    if ('past' === $restrict) {
-      $participantGet->addWhere('DATE(event_id.start_date)', '<', date('Y-m-d'));
-    }
-    elseif ('future' === $restrict) {
-      $participantGet->addWhere('DATE(event_id.start_date)', '>=', date('Y-m-d'));
-    }
-
     if (NULL !== $durchfuehrungsart) {
       $participantGet->addWhere('event_id.seminar_zusatzinfo.seminar_durchf_hrungsart:name', '=', $durchfuehrungsart);
     }
 
-    $eventIds = $participantGet->execute()->column('event_id');
+    $eventIds = array_unique($participantGet->execute()->column('event_id'));
     foreach ($eventIds as $eventId) {
       $numberOfDays += self::getPersonalEventDays(['id' => $eventId], $contactId);
     }
@@ -599,12 +633,12 @@ class CRM_Events_Logic {
       $update[self::EVENT_DAYS_USED] = $days_used;
     }
 
-    $daysUsedOnline = self::getContactEventContingentUsed($contact_id, 'past', 'online');
+    $daysUsedOnline = self::getContactEventContingentUsed($contact_id, self::RESTRICT_ATTENDED, 'online');
     if ($current_values[self::EVENT_DAYS_USED_ONLINE] !== $daysUsedOnline) {
       $update[self::EVENT_DAYS_USED_ONLINE] = $daysUsedOnline;
     }
 
-    $daysUsedPresence = self::getContactEventContingentUsed($contact_id, 'past', 'präsenz');
+    $daysUsedPresence = self::getContactEventContingentUsed($contact_id, self::RESTRICT_ATTENDED, 'präsenz');
     if ($current_values[self::EVENT_DAYS_USED_PRESENCE] !== $daysUsedPresence) {
       $update[self::EVENT_DAYS_USED_PRESENCE] = $daysUsedPresence;
     }
@@ -615,12 +649,12 @@ class CRM_Events_Logic {
       $update[self::EVENT_DAYS_BOOKED] = $days_booked;
     }
 
-    $daysBookedOnline = self::getContactEventContingentUsed($contact_id, 'future', 'online');
+    $daysBookedOnline = self::getContactEventContingentUsed($contact_id, self::RESTRICT_BOOKED, 'online');
     if ($current_values[self::EVENT_DAYS_BOOKED_ONLINE] !== $daysBookedOnline) {
       $update[self::EVENT_DAYS_BOOKED_ONLINE] = $daysBookedOnline;
     }
 
-    $daysBookedPresence = self::getContactEventContingentUsed($contact_id, 'future', 'präsenz');
+    $daysBookedPresence = self::getContactEventContingentUsed($contact_id, self::RESTRICT_BOOKED, 'präsenz');
     if ($current_values[self::EVENT_DAYS_BOOKED_PRESENCE] !== $daysBookedPresence) {
       $update[self::EVENT_DAYS_BOOKED_PRESENCE] = $daysBookedPresence;
     }
