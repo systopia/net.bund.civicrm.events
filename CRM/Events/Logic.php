@@ -24,21 +24,15 @@ use Civi\RemoteParticipant\Event\ChangingEvent;
  */
 class CRM_Events_Logic {
   // participation obligation
-  private const EVENT_DAYS         = 'seminar_zusatzinfo.seminar_gesamtzahl_tage';
-  private const EVENT_DAYS_GRANTED = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_pflicht';
-  private const EVENT_DAYS_BOOKED  = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht';
-
-  private const EVENT_DAYS_BOOKED_ONLINE = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht_online';
-
+  private const EVENT_DAYS                 = 'seminar_zusatzinfo.seminar_gesamtzahl_tage';
+  private const EVENT_DAYS_GRANTED         = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_pflicht';
+  private const EVENT_DAYS_BOOKED          = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht';
+  private const EVENT_DAYS_BOOKED_ONLINE   = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht_online';
   private const EVENT_DAYS_BOOKED_PRESENCE = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_gebucht_praesenz';
-
-  private const EVENT_DAYS_USED    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet';
-
-  private const EVENT_DAYS_USED_ONLINE = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet_online';
-
-  private const EVENT_DAYS_USED_PRESENCE = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet_praesenz';
-
-  private const EVENT_DAYS_LEFT    = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_offen';
+  private const EVENT_DAYS_USED            = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet';
+  private const EVENT_DAYS_USED_ONLINE     = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet_online';
+  private const EVENT_DAYS_USED_PRESENCE   = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_geleistet_praesenz';
+  private const EVENT_DAYS_LEFT            = 'freiwillige_zusatzinfos.freiwillige_seminar_tage_offen';
 
   // missed (with valid excuse) and skipped (no excuse) days
   private const TOTAL_DAYS_MISSED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_entschuldigt';
