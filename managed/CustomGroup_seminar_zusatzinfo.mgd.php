@@ -12,7 +12,6 @@ return [
       'version' => 4,
       'values' => [
         'name' => 'seminar_zusatzinfo',
-        'table_name' => 'civicrm_value_seminar_zusatzinfo',
         'title' => E::ts('Zusätzliche Informationen für Seminare'),
         'extends' => 'Event',
         'style' => 'Inline',
@@ -37,7 +36,6 @@ return [
         'html_type' => 'TextArea',
         'is_searchable' => TRUE,
         'attributes' => 'rows=4, cols=60',
-        'column_name' => 'seminar_interne_anmerkungen',
       ],
       'match' => [
         'name',
@@ -59,7 +57,6 @@ return [
         'data_type' => 'Memo',
         'html_type' => 'RichTextEditor',
         'is_searchable' => TRUE,
-        'column_name' => 'seminar_seminarzeiten',
       ],
       'match' => [
         'name',
@@ -81,7 +78,6 @@ return [
         'data_type' => 'Memo',
         'html_type' => 'RichTextEditor',
         'is_searchable' => TRUE,
-        'column_name' => 'seminar_hinweise',
       ],
       'match' => [
         'name',
@@ -102,7 +98,6 @@ return [
         'label' => E::ts('Social-Scout Event ID'),
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'seminar_sc_event_id',
       ],
       'match' => [
         'name',
@@ -186,7 +181,6 @@ return [
         'label' => E::ts('Durchführungsart'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'seminar_durchf_hrungsart',
         'option_group_id.name' => 'seminar_durchf_hrungsart',
       ],
       'match' => [
@@ -330,7 +324,6 @@ return [
         'label' => E::ts('Thema'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'seminar_thema',
         'option_group_id.name' => 'seminar_thema',
       ],
       'match' => [
@@ -455,7 +448,6 @@ return [
         'label' => E::ts('Region'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'seminar_region',
         'option_group_id.name' => 'seminar_region',
       ],
       'match' => [
@@ -479,7 +471,6 @@ return [
         'html_type' => 'Text',
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
-        'column_name' => 'seminar_gesamtzahl_tage',
       ],
       'match' => [
         'name',
@@ -505,7 +496,6 @@ return [
         'text_length' => 255,
         'note_columns' => 60,
         'note_rows' => 4,
-        'column_name' => 'maximalbelegung',
       ],
       'match' => [
         'name',
@@ -527,7 +517,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'seminar_nur_f_r_vollj_hrige',
       ],
       'match' => [
         'name',
@@ -549,7 +538,6 @@ return [
         'data_type' => 'Money',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'seminar_gesamtkosten',
       ],
       'match' => [
         'name',
@@ -575,7 +563,6 @@ return [
         'text_length' => 255,
         'note_columns' => 60,
         'note_rows' => 4,
-        'column_name' => 'honorarkosten',
       ],
       'match' => [
         'name',
@@ -601,7 +588,6 @@ return [
         'text_length' => 255,
         'note_columns' => 60,
         'note_rows' => 4,
-        'column_name' => 'raumkosten',
       ],
       'match' => [
         'name',
@@ -627,7 +613,6 @@ return [
         'text_length' => 255,
         'note_columns' => 60,
         'note_rows' => 4,
-        'column_name' => 'verpfelgungskosten',
       ],
       'match' => [
         'name',
@@ -653,7 +638,6 @@ return [
         'text_length' => 255,
         'note_columns' => 60,
         'note_rows' => 4,
-        'column_name' => 'sonstige_kosten',
       ],
       'match' => [
         'name',

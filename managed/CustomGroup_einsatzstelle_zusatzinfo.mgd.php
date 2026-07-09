@@ -12,7 +12,6 @@ return [
       'version' => 4,
       'values' => [
         'name' => 'einsatzstelle_zusatzinfo',
-        'table_name' => 'civicrm_value_einsatzstelle_zusatzinfo',
         'title' => E::ts('Zusätzliche Informationen zur Einsatzstelle'),
         'extends' => 'Organization',
         'extends_entity_column_value' => [
@@ -38,7 +37,6 @@ return [
         'label' => E::ts('EST-Nummer'),
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_einsaztstellennummer',
       ],
       'match' => [
         'name',
@@ -60,7 +58,6 @@ return [
         'data_type' => 'ContactReference',
         'html_type' => 'Autocomplete-Select',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_rechtstr_ger',
         'filter' => 'action=lookup&group=5',
       ],
       'match' => [
@@ -82,7 +79,6 @@ return [
         'label' => E::ts('RTR-Nummer'),
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_rechtstr_gernummer',
       ],
       'match' => [
         'name',
@@ -103,7 +99,6 @@ return [
         'label' => E::ts('AST-Nummer TG'),
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_abrechnungsstellennummer',
       ],
       'match' => [
         'name',
@@ -124,7 +119,6 @@ return [
         'label' => E::ts('AST-Nummer BP'),
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_ast_nummer_bp',
       ],
       'match' => [
         'name',
@@ -148,7 +142,6 @@ return [
         'text_length' => 255,
         'note_columns' => 60,
         'note_rows' => 4,
-        'column_name' => 'debitorennummer',
       ],
       'match' => [
         'name',
@@ -272,7 +265,6 @@ return [
         'label' => E::ts('Regionalstelle'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_regionalstelle',
         'option_group_id.name' => 'regionalstellen',
         'serialize' => 1,
       ],
@@ -296,7 +288,6 @@ return [
         'data_type' => 'ContactReference',
         'html_type' => 'Autocomplete-Select',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_regionalstellenbetreuerin',
         'filter' => 'action=lookup&group=2',
       ],
       'match' => [
@@ -381,7 +372,6 @@ return [
         'label' => E::ts('Einsatzstelle Extern / Verband'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_extern_verband',
         'option_group_id.name' => 'einsatzstelle_extern_verband',
         'serialize' => 1,
       ],
@@ -406,7 +396,6 @@ return [
         'html_type' => 'Select Date',
         'is_searchable' => TRUE,
         'date_format' => 'yy-mm-dd',
-        'column_name' => 'einsatzstelle_einsatzstelle_seit',
       ],
       'match' => [
         'name',
@@ -428,7 +417,6 @@ return [
         'data_type' => 'Int',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_pl_tze_insgesamt',
       ],
       'match' => [
         'name',
@@ -450,7 +438,6 @@ return [
         'data_type' => 'Int',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatzstelle_pl_tze_frei',
       ],
       'match' => [
         'name',
@@ -473,7 +460,6 @@ return [
         'html_type' => 'Select Date',
         'is_searchable' => TRUE,
         'date_format' => 'yy-mm-dd',
-        'column_name' => 'einsatzstelle_eingang_rahmenvereinbarung',
       ],
       'match' => [
         'name',

@@ -12,7 +12,6 @@ return [
       'version' => 4,
       'values' => [
         'name' => 'freiwillige_zusatzinfos',
-        'table_name' => 'civicrm_value_freiwillige_zusatzinfos',
         'title' => E::ts('Zusätzliche Informationen für Freiwillige'),
         'extends' => 'Individual',
         'extends_entity_column_value' => [
@@ -38,7 +37,6 @@ return [
         'label' => E::ts('Freiwilligenkennung'),
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'freiwillige_freiwilligenkennung',
       ],
       'match' => [
         'name',
@@ -162,7 +160,6 @@ return [
         'label' => E::ts('Regionalstelle'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'freiwillige_regionalstelle',
         'option_group_id.name' => 'regionalstellen',
         'serialize' => 1,
       ],
@@ -186,7 +183,6 @@ return [
         'data_type' => 'ContactReference',
         'html_type' => 'Autocomplete-Select',
         'is_searchable' => TRUE,
-        'column_name' => 'freiwillige_regionalstellenbetre',
         'filter' => 'action=lookup&group=2',
       ],
       'match' => [
@@ -208,7 +204,6 @@ return [
         'label' => E::ts('Nationalität'),
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'freiwillige_nationalit_t',
       ],
       'match' => [
         'name',
@@ -293,7 +288,6 @@ return [
         'html_type' => 'Select',
         'is_searchable' => TRUE,
         'is_active' => FALSE,
-        'column_name' => 'freiwillige_arbeitszeit',
         'option_group_id.name' => 'freiwillige_arbeitszeit',
         'serialize' => 1,
       ],
@@ -317,7 +311,6 @@ return [
         'html_type' => 'Text',
         'is_searchable' => TRUE,
         'is_active' => FALSE,
-        'column_name' => 'freiwillige_stundenzahl',
       ],
       'match' => [
         'name',
@@ -339,7 +332,6 @@ return [
         'html_type' => 'Text',
         'is_searchable' => TRUE,
         'is_active' => FALSE,
-        'column_name' => 'freiwillige_regelstunden',
       ],
       'match' => [
         'name',
@@ -603,7 +595,6 @@ return [
         'label' => E::ts('Bevorzugte Sprache'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'freiwillige_bevorzugte_sprache',
         'option_group_id.name' => 'freiwillige_bevorzugte_sprache',
         'serialize' => 1,
       ],
@@ -729,7 +720,6 @@ return [
         'label' => E::ts('Deutschkenntnisse'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'freiwillige_deutschkenntnisse',
         'option_group_id.name' => 'freiwillige_deutschkenntnisse',
         'serialize' => 1,
       ],
@@ -753,7 +743,6 @@ return [
         'data_type' => 'Int',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'freiwillige_seminar_tage_pflicht',
       ],
       'match' => [
         'name',
@@ -776,7 +765,6 @@ return [
         'html_type' => 'Text',
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
-        'column_name' => 'freiwillige_politische_bildungst',
       ],
       'match' => [
         'name',
@@ -800,7 +788,6 @@ return [
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
         'is_view' => TRUE,
-        'column_name' => 'freiwillige_seminar_tage_gebucht',
       ],
       'match' => [
         'name',
@@ -824,7 +811,6 @@ return [
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
         'is_view' => TRUE,
-        'column_name' => 'freiwillige_seminar_tage_gebucht_online',
       ],
       'match' => [
         'name',
@@ -848,7 +834,6 @@ return [
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
         'is_view' => TRUE,
-        'column_name' => 'freiwillige_seminar_tage_gebucht_praesenz',
       ],
       'match' => [
         'name',
@@ -873,7 +858,6 @@ return [
         'is_search_range' => TRUE,
         'help_post' => E::ts('Hier werden sowohl teilgenommene Tage, solche zukünftiger Anmeldungen mit positivem Status als auch entschuldigte Fehltage berücksichtigt.'),
         'is_view' => TRUE,
-        'column_name' => 'freiwillige_seminar_tage_geleist',
       ],
       'match' => [
         'name',
@@ -897,7 +881,6 @@ return [
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
         'is_view' => TRUE,
-        'column_name' => 'freiwillige_seminar_tage_geleistet_online',
       ],
       'match' => [
         'name',
@@ -921,7 +904,6 @@ return [
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
         'is_view' => TRUE,
-        'column_name' => 'freiwillige_seminar_tage_geleistet_praesenz',
       ],
       'match' => [
         'name',
@@ -945,7 +927,6 @@ return [
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
         'is_view' => TRUE,
-        'column_name' => 'freiwillige_seminar_tage_offen',
       ],
       'match' => [
         'name',
@@ -969,7 +950,6 @@ return [
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
         'is_view' => TRUE,
-        'column_name' => 'freiwillige_gesamtfehltage_entsc',
       ],
       'match' => [
         'name',
@@ -993,7 +973,6 @@ return [
         'is_searchable' => TRUE,
         'is_search_range' => TRUE,
         'is_view' => TRUE,
-        'column_name' => 'freiwillige_gesamtfehltage_unent',
       ],
       'match' => [
         'name',
