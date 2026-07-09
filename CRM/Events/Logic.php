@@ -37,9 +37,6 @@ class CRM_Events_Logic {
   // missed (with valid excuse) and skipped (no excuse) days
   private const TOTAL_DAYS_MISSED  = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_entschuldigt';
   private const TOTAL_DAYS_SKIPPED = 'freiwillige_zusatzinfos.freiwillige_gesamtfehltage_unentschuldigt';
-  private const EVENT_DAYS_MISSED  = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_entschuldigt';
-  private const EVENT_DAYS_SKIPPED = 'teilnehmer_zusatzinfo.teilnehmer_fehltage_unentschuldigt';
-  private const EVENT_DAYS_TOTAL   = 'teilnehmer_zusatzinfo.teilnehmer_gesamttage_anmeldung';
 
   private const RESTRICT_ATTENDED = 'attended';
   private const RESTRICT_BOOKED   = 'booked';
@@ -435,19 +432,7 @@ class CRM_Events_Logic {
    * @param int $contactId
    *   contact ID
    *
-   * @phpstan-return array{
-   *   contact_id: int,
-   *   self::EVENT_DAYS_GRANTED: int,
-   *   self::EVENT_DAYS_BOOKED: int,
-   *   self::EVENT_DAYS_BOOKED_ONLINE: int,
-   *   self::EVENT_DAYS_BOOKED_PRESENCE: int,
-   *   self::EVENT_DAYS_USED: int,
-   *   self::EVENT_DAYS_USED_ONLINE: int,
-   *   self::EVENT_DAYS_USED_PRESENCE: int,
-   *   self::EVENT_DAYS_LEFT: int,
-   *   self::TOTAL_DAYS_MISSED: int,
-   *   self::TOTAL_DAYS_SKIPPED: int,
-   * }
+   * @phpstan-return array<string, mixed>
    */
   protected static function getContactEventContingentData(int $contactId, bool $cached = TRUE): array {
     // caching
