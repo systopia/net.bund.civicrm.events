@@ -12,7 +12,6 @@ return [
       'version' => 4,
       'values' => [
         'name' => 'teilnehmer_zusatzinfo',
-        'table_name' => 'civicrm_value_teilnehmer_zusatzinfo',
         'title' => E::ts('Zusätzliche Informationen für Seminar-Teilnehmer'),
         'extends' => 'Participant',
         'style' => 'Inline',
@@ -37,7 +36,6 @@ return [
         'html_type' => 'TextArea',
         'is_searchable' => TRUE,
         'attributes' => 'rows=4, cols=60',
-        'column_name' => 'teilnehmer_grund_der_abwesenheit',
       ],
       'match' => [
         'name',
@@ -59,7 +57,6 @@ return [
         'data_type' => 'Float',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'teilnehmer_gesamttage_anmeldung',
       ],
       'match' => [
         'name',
@@ -82,7 +79,6 @@ return [
         'html_type' => 'Text',
         'is_searchable' => TRUE,
         'help_pre' => E::ts('Bei Eintragungen im Feld "entschuldigt" sind die Zahl der eingetragenen Seminartage nicht mehr verfügbar für andere Seminare'),
-        'column_name' => 'teilnehmer_fehltage_entschuldigt',
       ],
       'match' => [
         'name',
@@ -105,7 +101,6 @@ return [
         'html_type' => 'Text',
         'is_searchable' => TRUE,
         'help_pre' => E::ts('Bei Eintragungen im Feld "unentschuldigt" werden die Zahl der eingetragenen Seminartage wieder verfügbar für andere Seminare'),
-        'column_name' => 'teilnehmer_fehltage_unentschuldigt',
       ],
       'match' => [
         'name',
@@ -127,7 +122,6 @@ return [
         'data_type' => 'Money',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'teilnehmer_spesen',
       ],
       'match' => [
         'name',

@@ -12,7 +12,6 @@ return [
       'version' => 4,
       'values' => [
         'name' => 'einsatz_zusatzinfos',
-        'table_name' => 'civicrm_value_einsatz_zusatzinfos',
         'title' => E::ts('Zusätzliche Informationen zum Einsatz von Freiwilligen'),
         'extends' => 'Relationship',
         'extends_entity_column_value:name' => [
@@ -183,7 +182,6 @@ return [
         'label' => E::ts('Status'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_status',
         'option_group_id.name' => 'einsatz_status',
       ],
       'match' => [
@@ -211,7 +209,6 @@ return [
         'text_length' => 255,
         'note_columns' => 60,
         'note_rows' => 4,
-        'column_name' => 'wochenstunden',
       ],
       'match' => [
         'name',
@@ -237,7 +234,6 @@ return [
         'text_length' => 255,
         'note_columns' => 60,
         'note_rows' => 4,
-        'column_name' => 'regelstunden',
       ],
       'match' => [
         'name',
@@ -258,7 +254,6 @@ return [
         'label' => E::ts('Stundenzahl'),
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_stundenzahl',
       ],
       'match' => [
         'name',
@@ -342,7 +337,6 @@ return [
         'label' => E::ts('Voll- oder Teilzeit'),
         'html_type' => 'Select',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_voll_oder_teilzeit',
         'option_group_id.name' => 'einsatz_voll_oder_teilzeit',
       ],
       'match' => [
@@ -365,7 +359,6 @@ return [
         'data_type' => 'Money',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_taschengeld',
       ],
       'match' => [
         'name',
@@ -387,7 +380,6 @@ return [
         'data_type' => 'Money',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_verpflegung',
       ],
       'match' => [
         'name',
@@ -409,7 +401,6 @@ return [
         'data_type' => 'Money',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_sonstige_leistungen',
       ],
       'match' => [
         'name',
@@ -431,7 +422,6 @@ return [
         'data_type' => 'Money',
         'html_type' => 'Text',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_sv_betrag',
       ],
       'match' => [
         'name',
@@ -453,7 +443,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_dienstbescheinigung_erstellt',
       ],
       'match' => [
         'name',
@@ -475,7 +464,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_bfd_vereinbarung_best_tigt',
       ],
       'match' => [
         'name',
@@ -497,7 +485,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_verl_ngerungsbest_tigung',
       ],
       'match' => [
         'name',
@@ -519,7 +506,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_nderungsbest_tigung',
       ],
       'match' => [
         'name',
@@ -541,7 +527,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_k_ndigungsbest_tigung',
       ],
       'match' => [
         'name',
@@ -563,7 +548,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_personalbogen_vorhanden',
       ],
       'match' => [
         'name',
@@ -585,7 +569,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_begr_ungsschreiben_raus',
       ],
       'match' => [
         'name',
@@ -607,7 +590,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_antrag_auf_f_rderbedarf',
       ],
       'match' => [
         'name',
@@ -629,7 +611,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_warten_auf_attest',
       ],
       'match' => [
         'name',
@@ -651,7 +632,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_warten_auf_externe_seminarbescheinigung',
       ],
       'match' => [
         'name',
@@ -673,7 +653,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_fw_zeit_seminar',
       ],
       'match' => [
         'name',
@@ -696,7 +675,6 @@ return [
         'html_type' => 'Radio',
         'default_value' => '0',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_kennenlerntelefonat_noch_offen',
       ],
       'match' => [
         'name',
@@ -718,7 +696,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_offene_r_ckmeldung',
       ],
       'match' => [
         'name',
@@ -740,7 +717,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_offener_konflikt',
       ],
       'match' => [
         'name',
@@ -762,7 +738,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_verk_rzt',
       ],
       'match' => [
         'name',
@@ -784,7 +759,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_verl_ngert',
       ],
       'match' => [
         'name',
@@ -806,7 +780,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_ank_ndigung_verl_ngerung',
       ],
       'match' => [
         'name',
@@ -828,7 +801,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_dienstbescheinigung_da',
       ],
       'match' => [
         'name',
@@ -850,7 +822,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_zeugnisbest_tigung_da',
       ],
       'match' => [
         'name',
@@ -872,7 +843,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_abschiedsmail_erhalten',
       ],
       'match' => [
         'name',
@@ -894,7 +864,6 @@ return [
         'data_type' => 'Boolean',
         'html_type' => 'Radio',
         'is_searchable' => TRUE,
-        'column_name' => 'einsatz_probemitgliedschaft_abgeschlossen',
       ],
       'match' => [
         'name',
@@ -918,7 +887,6 @@ return [
         'text_length' => 255,
         'note_columns' => 60,
         'note_rows' => 4,
-        'column_name' => 'dienstzeitbescheinigung',
       ],
       'match' => [
         'name',
