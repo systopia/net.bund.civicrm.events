@@ -517,11 +517,16 @@ class CRM_Events_Logic {
         break;
     }
 
+    if ([] === $statusIds) {
+      return 0;
+    }
+
     $numberOfDays = 0;
     $participantGet = Participant::get(FALSE)
       ->setSelect(['event_id'])
+      ->addGroupBy('event_id')
       ->addWhere('contact_id', '=', $contactId)
-      ->addWhere('status_id', 'IN', [] === $statusIds ? [-1] : $statusIds);
+      ->addWhere('status_id', 'IN', $statusIds);
 
     // check if we restrict to certain event types
     $eventTypes = Civi::settings()->get('bund_event_types');
@@ -533,7 +538,7 @@ class CRM_Events_Logic {
       $participantGet->addWhere('event_id.seminar_zusatzinfo.seminar_durchf_hrungsart:name', '=', $durchfuehrungsart);
     }
 
-    $eventIds = array_unique($participantGet->execute()->column('event_id'));
+    $eventIds = $participantGet->execute()->column('event_id');
     foreach ($eventIds as $eventId) {
       $numberOfDays += self::getPersonalEventDays(['id' => $eventId], $contactId);
     }
